@@ -1,7 +1,7 @@
-<?php include('header.php');
+<?php 
+    include('header.php');
     use Mainclass\Models\Rol;
-
- ?>
+?>
 <div class="app-main">
     <div class="app-sidebar sidebar-shadow">
         <div class="app-header__logo">

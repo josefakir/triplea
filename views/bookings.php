@@ -49,10 +49,13 @@
             <?php } ?>
                 <div class="col-md-12">
                     <div class="main-card mb-3 card">
-                        <div class="card-header">Solicitudes de booking:
-                            
+                        <div class="card-header">Solicitudes de booking:</div>
+                        <div class="p10">
+                            <div id='calendar'></div>
                         </div>
-                        <div class="table-responsive">
+
+  
+                        <!--<div class="table-responsive">
                             <?php 
                             $booking = new Booking();
                             $booking = $booking->all();
@@ -104,7 +107,7 @@
                             <div class="d-block text-center card-footer">
                                 <a href="<?php echo BASE_URL ?>agregar-booking" class="btn-wide btn btn-success">Agregar Solicitud</a>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
             </div>
@@ -113,3 +116,16 @@
     </div>
 </div>
 <?php include("footer.php") ?>
+<script>
+
+      document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          plugins: [ 'dayGrid' ]
+        });
+
+        calendar.render();
+      });
+
+    </script>

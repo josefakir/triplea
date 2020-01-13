@@ -30,14 +30,19 @@
 		$email = $request->getParsedBodyParam('email');
 		$pass = md5($request->getParsedBodyParam('password'));
 		$user = new Usuario();
-		$users = $user::where('correo', $email)->where('contrasena', $pass)->where('activo',1)->get();
+		$users = $user::where('correo', $email)->where('contrasena', $pass)->where('status',1)->get();
 			if($users->count()>0){
 				$_SESSION['auth'] = true;
 				$_SESSION['id_usuario'] = $users[0]->id;
 				$_SESSION['nombre'] = $users[0]->nombre;
 				$_SESSION['rol'] = $users[0]->rol;
 				$_SESSION['apikey'] = $users[0]->apikey;
-				$_SESSION['avatar'] = BASE_URL.$users[0]->avatar;
+				$avatar = $users[0]->avatar;
+				if(empty($avatar)){
+					$_SESSION['avatar'] = BASE_URL."assets/img/default.jpg";
+				}else{
+					$_SESSION['avatar'] = $users[0]->avatar;
+				}
 				return $response->withHeader('Location', BASE_URL.'/inicio' );
 		}else{
 			return $response->withHeader('Location', BASE_URL."?m=".base64_encode('Usuario o contraseña incorrectos') );
