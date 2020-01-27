@@ -8,9 +8,12 @@
 	use Mainclass\Models\Booking;
 	use Mainclass\Models\Tipo;
 	use Mainclass\Models\Rol;
+	use Mainclass\Models\Indumentaria;
 
 	use Mainclass\Middleware\Logging as Logging;
 	use Mainclass\Middleware\Redirectlogin as Redirectlogin;
+
+
 
 	$app = new \Slim\App();
 	$app->add(new Logging());
@@ -276,17 +279,6 @@
 			print_r($e);
 		}
 	});
-/* 
-
-	
-
-
-	
-
-	
-
-
-*/
 
 
 	$app->get("/bookings",function($request, $response, $args){
@@ -296,5 +288,153 @@
 	$app->get("/agregar-booking",function($request, $response, $args){
 		include("views/agregar-booking.php");
 	});
+
+	$app->post("/insert/booking",function($request, $response, $args){
+		$id_usuario = $request->getParsedBodyParam('id_usuario');
+		$id_tipo = $request->getParsedBodyParam('id_tipo');
+		$fecha = $request->getParsedBodyParam('fecha')." ".$request->getParsedBodyParam('hora').":00";
+		$id_indumentaria = $request->getParsedBodyParam('id_indumentaria');
+		$comentarios = $request->getParsedBodyParam('comentarios');
+		$id_solicitante = $_SESSION['id_usuario'];
+		$status  = 0;
+
+		$booking = new Booking();
+		$booking = $booking->where('id_usuario',$id_usuario)->where('fecha',$fecha)->where('status','<>',1)->get();
+		$count = count($booking);
+
+		if($count==0){
+			$booking = new Booking();
+			$booking->id_usuario = $id_usuario;
+			$booking->id_tipo = $id_tipo;
+			$booking->fecha = $fecha;
+			$booking->id_indumentaria = $id_indumentaria;
+			$booking->comentarios = $comentarios;
+			$booking->id_solicitante = $id_solicitante;
+			$booking->status = $status;
+			try {
+				$booking->save();
+				//Administradores;
+
+				$admins = new Usuario();
+				$admins = $admins->where('rol',1)->get();
+				foreach ($admins as $a) {
+					// Enviar correos a los administradores (que pueden aprobar las solicitudes //Gonzalo)
+					$html = "
+
+
+						<!DOCTYPE html>
+						<html lang='en'>
+						<head>
+							<meta charset='UTF-8'>
+							<title>Document</title>
+						</head>
+						<body>
+							<p style='text-align: center;'>
+								<img src='".BASE_URL."assets/img/logo.png' alt='' style='width: 80px'>
+							</p>
+							<p style='font-family: arial'>Has recibido una solicitud de talento:</p>
+							<p>Solicita: <strong>".traducirUsuario($id_solicitante)."</strong></p>
+							<p>Talento: <strong>".traducirUsuario($id_usuario)."</strong></p>
+							<p>Tipo de evento: <strong>".traducirTipo($id_tipo)."</strong></p>
+							<p>Indumentaria: <strong>".traducirIndumentaria($id_indumentaria)."</strong></p>
+							<p>Fecha: <strong>".$fecha."</strong></p>
+							<p>Comentarios: <strong>".$comentarios."</strong></p>
+							<p>&nbsp;</p>
+							<p>Para aprobar o rechazar la solicitud haga click <a href='".BASE_URL."operacion-solicitud/".$booking->id."'>aquí</a></p>
+						</body>
+						</html>
+						
+					";
+					enviarCorreo($a->id, "Se ha creado una nueva solicitud - Intranet AAA" ,$html);
+				}
+
+				//enviarCorreo(1,1);
+				return $response->withHeader('Location', BASE_URL."bookings?m=".base64_encode('Solicituda agregada correctamente'));
+			} catch (Exception $e) {
+				print_r($e);
+			}
+		}else{
+			return $response->withHeader('Location', BASE_URL."bookings?m=".base64_encode('Ya hay una solicitud aprobada para ese talento en esa fecha y hora') );
+		}
+		/* 
+			LEYENDA DE STATUS :
+			0 = Solicitado
+			1 = Aprobado
+			2 = Rechazado
+		*/
+	});
+
+	$app->get("/delete/booking/{id}",function($request, $response, $args){
+		$booking = new Booking();
+		$booking = $booking->find($args['id']);
+		$booking->status = 4;
+		try {
+			$booking->save();
+			return $response->withHeader('Location', BASE_URL."bookings?m=".base64_encode('Solicitud eliminada correctamente') );
+		} catch (Exception $e) {
+			print_r($e);
+		}
+	});
+
+	$app->get("/editar-booking/{id}",function($request, $response, $args){
+		include("views/editar-booking.php");
+	});
+
+
+
+	$app->get("/indumentarias",function($request, $response, $args){
+		include("views/indumentarias.php");
+	});
+	$app->get("/agregar-indumentaria",function($request, $response, $args){
+		include("views/agregar-indumentaria.php");
+	});
+	$app->post("/insert/indumentaria",function($request, $response, $args){
+		$nombre = $request->getParsedBodyParam('indumentaria');
+		$indumentaria = new Indumentaria();
+		$indumentaria->nombre = $nombre;
+		$indumentaria->status = "1";
+		try {
+			$indumentaria->save();
+			return $response->withHeader('Location', BASE_URL."indumentarias?m=".base64_encode('Indumentaria agregada correctamente') );
+		} catch (Exception $e) {
+			print_r($e);
+		}
+	});
+	$app->get("/delete/indumentaria/{id}",function($request, $response, $args){
+		$indumentaria = new Indumentaria();
+		$indumentaria = $indumentaria->find($args['id']);
+		$indumentaria->status = 0;
+		try {
+			$indumentaria->save();
+			return $response->withHeader('Location', BASE_URL."indumentarias?m=".base64_encode('Indumentaria eliminada correctamente') );
+		} catch (Exception $e) {
+			print_r($e);
+		}
+	});
+
+	$app->get("/editar-indumentaria/{id}",function($request, $response, $args){
+		include("views/editar-indumentaria.php");
+	});
+
+	$app->post("/update/indumentaria",function($request, $response, $args){
+		$id = $request->getParsedBodyParam('id');
+		$nombre = $request->getParsedBodyParam('rol');
+
+		$rol = new Indumentaria();
+		$rol = $rol->find($id);
+		$rol->nombre = $nombre;
+		try {
+			$rol->save();
+			return $response->withHeader('Location', BASE_URL."indumentarias?m=".base64_encode('Indumentaria modificada correctamente') );
+		} catch (Exception $e) {
+			print_r($e);
+		}
+	});
+
+	$app->get("/enviar-correo",function($request, $response, $args){
+		enviarCorreo(1,1);
+	});
+
+
 
 	$app->run();

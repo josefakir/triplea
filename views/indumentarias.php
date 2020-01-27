@@ -1,7 +1,6 @@
 <?php include('header.php');
-    use Mainclass\Models\Booking;
-
- ?>
+    use Mainclass\Models\Indumentaria;
+?>
 <div class="app-main">
     <div class="app-sidebar sidebar-shadow">
         <div class="app-header__logo">
@@ -57,38 +56,30 @@
   
                         <div class="table-responsive">
                             <?php 
-                            $booking = new Booking();
-                            $booking = $booking->where('status','<>',4)->get();
+                            $indumentaria = new Indumentaria();
+                            $indumentaria = $indumentaria->where('status',1)->get();
                             ?>
                             <table class="align-middle mb-0 table table-borderless table-striped table-hover">
                                 <thead>
                                     <tr>
                                         <th class="text-center">#</th>
-                                        <th>Solicitante</th>
-                                        <th>Talento</th>
-                                        <th>Tipo de evento</th>
-                                        <th>Fecha y Hora</th>
-                                        <th>Indumentaria</th>
+                                        <th>Nombre</th>
                                         <th class="text-center">Editar</th>
                                         <th class="text-center">Eliminar</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php 
-                                    foreach ($booking as $r) {
+                                    foreach ($indumentaria as $r) {
                                         ?>
                                          <tr>
                                         <td class="text-center text-muted"><?php echo $r->id ?></td>
-                                        <td class="text-muted"><?php echo traducirUsuario($r->id_solicitante) ?></td>
-                                        <td class="text-muted"><?php echo traducirUsuario($r->id_usuario) ?></td>
-                                        <td class="text-muted"><?php echo traducirTipo($r->id_tipo) ?></td>
-                                        <td class="text-muted"><?php echo $r->fecha ?></td>
-                                        <td class="text-muted"><?php echo traducirIndumentaria($r->id_indumentaria) ?></td>
+                                        <td class="text-muted"><?php echo $r->nombre ?></td>
                                         <td class="text-center">
-                                            <a href="<?php echo BASE_URL ?>editar-booking/<?php echo $r->id ?>" class="btn btn-primary btn-sm">Editar</a>
+                                            <a href="<?php echo BASE_URL ?>editar-indumentaria/<?php echo $r->id ?>" class="btn btn-primary btn-sm">Editar</a>
                                         </td>
                                         <td class="text-center">
-                                            <a onclick="return confirm('¿Está seguro de querer eliminar?');" href="<?php echo BASE_URL ?>delete/booking/<?php echo $r->id ?>" class="btn btn-danger btn-sm">Eliminar</a>
+                                            <a onclick="return confirm('¿Está seguro de querer eliminar?');" href="<?php echo BASE_URL ?>delete/indumentaria/<?php echo $r->id ?>" class="btn btn-danger btn-sm">Eliminar</a>
                                         </td>
                                     </tr>
                                         <?php
@@ -98,7 +89,7 @@
                                 </table>
                             </div>
                             <div class="d-block text-center card-footer">
-                                <a href="<?php echo BASE_URL ?>agregar-booking" class="btn-wide btn btn-success">Agregar Solicitud</a>
+                                <a href="<?php echo BASE_URL ?>agregar-indumentaria" class="btn-wide btn btn-success">Agregar Indumentaria</a>
                             </div>
                         </div>
                     </div>
@@ -108,16 +99,3 @@
     </div>
 </div>
 <?php include("footer.php") ?>
-<!--<script>
-
-      document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-          plugins: [ 'dayGrid' ]
-        });
-
-        calendar.render();
-      });
-
-    </script>-->

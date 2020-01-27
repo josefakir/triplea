@@ -14,7 +14,8 @@ crossorigin="anonymous"></script>
 		$('.datepicker').datepicker({
 		 format: 'yyyy-mm-dd',
 		 startDate: '+0d',
-		 autoclose: true
+		 autoclose: true,
+    	todayHighlight: true
 	 });
 	})
 </script>
