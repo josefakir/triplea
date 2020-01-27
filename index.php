@@ -363,6 +363,10 @@
 			2 = Rechazado
 		*/
 	});
+	
+	$app->get("/operacion-solicitud/{id}",function($request, $response, $args){
+		include("views/operacion-solicitud.php");
+	});
 
 	$app->get("/delete/booking/{id}",function($request, $response, $args){
 		$booking = new Booking();
@@ -378,6 +382,29 @@
 
 	$app->get("/editar-booking/{id}",function($request, $response, $args){
 		include("views/editar-booking.php");
+	});
+
+	$app->get("/aprobar-booking/{id}",function($request, $response, $args){
+		$booking = new Booking();
+		$booking = $booking->find($args['id']);
+		$booking->status = 1;
+		try {
+			$booking->save();
+			return $response->withHeader('Location', BASE_URL."bookings?m=".base64_encode('Solicitud aprobada correctamente') );
+		} catch (Exception $e) {
+			print_r($e);
+		}
+	});
+	$app->get("/rechazar-booking/{id}",function($request, $response, $args){
+		$booking = new Booking();
+		$booking = $booking->find($args['id']);
+		$booking->status = 2;
+		try {
+			$booking->save();
+			return $response->withHeader('Location', BASE_URL."bookings?m=".base64_encode('Solicitud rechazada correctamente') );
+		} catch (Exception $e) {
+			print_r($e);
+		}
 	});
 
 
@@ -431,9 +458,7 @@
 		}
 	});
 
-	$app->get("/enviar-correo",function($request, $response, $args){
-		enviarCorreo(1,1);
-	});
+
 
 
 
