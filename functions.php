@@ -76,7 +76,7 @@ function enviarCorreo($id_usuario, $subject ,$html){
 	$mail->Port       = 587;
 	$mail->Host       = "mail.taktikdata.com";
 	$mail->Username   = "jose.becerra@taktikdata.com";
-	$mail->Password   = base64_decode("SnNCY3JyLzEx");
+	$mail->Password   = base64_decode("aaaSnNCY3JyLzExaaa");
 
 	$mail->IsHTML(true);
 	$mail->AddAddress("jbecerraromero@gmail.com", "Pepe Becerra");
