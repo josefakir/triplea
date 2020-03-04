@@ -63,8 +63,12 @@
                             <input type="text" class="form-control" name="nombre" required>
                         </div>
                         <div class="form-group">
+                                <label for="">Avatar</label>
+                                <input type="file" class="form-control" name="avatar">
+                            </div>
+                        <div class="form-group">
                             <label for="">Rol</label>
-                            <select name="rol" id="" class="form-control" required>
+                            <select name="rol" id="rol_usuario" class="form-control" required>
                                 <option value="">Seleccione</option>
                                 <?php 
                                     $rol = new Rol();
@@ -77,9 +81,32 @@
                                 ?>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label for="">Avatar</label>
-                            <input type="file" class="form-control" name="avatar">
+                        <div id="solotalento">
+                            <div class="form-group">
+                                <label for="">$ Show TV</label>
+                                <small>(Cantidad que se le paga por un show de tv)</small>
+                                <input type="number" class="form-control" name="tv" >
+                            </div>
+                            <div class="form-group">
+                                <label for="">$ Firma</label>
+                                <small>(Cantidad que se le paga por una firma de autógrafos)</small>
+                                <input type="number" class="form-control" name="firma" >
+                            </div>
+                            <div class="form-group">
+                                <label for="">$ Privado</label>
+                                <small>(Cantidad que se le paga por un show privado)</small>
+                                <input type="number" class="form-control" name="privado" >
+                            </div>
+                            <div class="form-group">
+                                <label for="">$ oficina</label>
+                                <small>(Cantidad que se le paga por una runión en la oficina)</small>
+                                <input type="number" class="form-control" name="oficina" >
+                            </div>
+                            <div class="form-group">
+                                <label for="">$ house</label>
+                                <small>(Cantidad que se le paga por un house show)</small>
+                                <input type="number" class="form-control" name="house" >
+                            </div>
                         </div>
                         <button class="btn btn-success">Agregar Usuario</button>
                     </form>

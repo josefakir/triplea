@@ -58,7 +58,7 @@
                         <div class="table-responsive">
                             <?php 
                             $booking = new Booking();
-                            $booking = $booking->where('status','<>',4)->get();
+                            $booking = $booking->where('status',0)->get();
                             ?>
                             <table class="align-middle mb-0 table table-borderless table-striped table-hover">
                                 <thead>
@@ -69,8 +69,17 @@
                                         <th>Tipo de evento</th>
                                         <th>Fecha y Hora</th>
                                         <th>Indumentaria</th>
+                                        <?php 
+                                            if($_SESSION['rol']==1){
+                                                ?>
+                                                <th class="text-center">Aprobar</th>
+                                                <th class="text-center">Rechazar</th>
+                                                <?php 
+                                            }
+                                        ?>
                                         <th class="text-center">Editar</th>
                                         <th class="text-center">Eliminar</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -84,12 +93,25 @@
                                         <td class="text-muted"><?php echo traducirTipo($r->id_tipo) ?></td>
                                         <td class="text-muted"><?php echo $r->fecha ?></td>
                                         <td class="text-muted"><?php echo traducirIndumentaria($r->id_indumentaria) ?></td>
+                                        <?php 
+                                            if($_SESSION['rol']==1){
+                                                ?>
+                                                <td class="text-center">
+                                                    <a onclick="return confirm('¿Está seguro de querer aprobar?');" href="<?php echo BASE_URL ?>aprobar-booking/<?php echo $r->id ?>" class="btn btn-success btn-sm">Aprobar</a>
+                                                </th>
+                                                <td class="text-center">
+                                                    <a onclick="return confirm('¿Está seguro de querer rechazar?');" href="<?php echo BASE_URL ?>rechazar-booking/<?php echo $r->id ?>" class="btn btn-danger btn-sm">Rechazar</a>
+                                                </th>
+                                                <?php 
+                                            }
+                                        ?>
                                         <td class="text-center">
                                             <a href="<?php echo BASE_URL ?>editar-booking/<?php echo $r->id ?>" class="btn btn-primary btn-sm">Editar</a>
                                         </td>
                                         <td class="text-center">
                                             <a onclick="return confirm('¿Está seguro de querer eliminar?');" href="<?php echo BASE_URL ?>delete/booking/<?php echo $r->id ?>" class="btn btn-danger btn-sm">Eliminar</a>
                                         </td>
+                                        
                                     </tr>
                                         <?php
                                     }

@@ -6,8 +6,11 @@
 .p10{
 	padding: 10px;
 }
-
-
+.padding{padding:2%}
+.tac{text-align:center}
+#solotalento{
+    display:none
+}
 /*!
  =========================================================
  * ArchitectUI HTML Theme Dashboard - v1.0.0

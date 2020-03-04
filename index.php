@@ -76,6 +76,13 @@
 		$rol = $request->getParsedBodyParam('rol');
 		$apikey = md5(date('Ymdhsi').$contrasena);
 
+		$tv = $request->getParsedBodyParam('tv');
+		$firma = $request->getParsedBodyParam('firma');
+		$privado = $request->getParsedBodyParam('privado');
+		$prensa = $request->getParsedBodyParam('prensa');
+		$oficina = $request->getParsedBodyParam('oficina');
+		$house = $request->getParsedBodyParam('house');
+
 
 		$uploadedFiles = $request->getUploadedFiles();
 	    $uploadedFile = $uploadedFiles['avatar'];
@@ -103,6 +110,13 @@
 		if(!empty($avatar)){
 			$usuario->avatar = $avatar;
 		}
+		$usuario->tv = $tv;
+		$usuario->firma = $firma;
+		$usuario->privado = $privado;
+		$usuario->prensa = $prensa;
+		$usuario->oficina = $oficina;
+		$usuario->house = $house;
+
 		try {
 			$usuario->save();
 			return $response->withHeader('Location', BASE_URL."usuarios?m=".base64_encode('Usuario agregado correctamente') );
@@ -120,7 +134,12 @@
 		$contrasena = md5($password);
 		$apikey = md5(date('Ymdhsi').$contrasena);
 
-
+		$tv = $request->getParsedBodyParam('tv');
+		$firma = $request->getParsedBodyParam('firma');
+		$privado = $request->getParsedBodyParam('privado');
+		$prensa = $request->getParsedBodyParam('prensa');
+		$oficina = $request->getParsedBodyParam('oficina');
+		$house = $request->getParsedBodyParam('house');
 
 		$usuario = new Usuario();
 		$usuario = $usuario->find($id);
@@ -151,6 +170,7 @@
 		$usuario->rol = $rol;
 		$usuario->apikey = $apikey;
 		$usuario->status = 1;
+		
 		if(!empty($avatar)){
 			$usuario->avatar = $avatar;
 		}
@@ -161,6 +181,13 @@
 		}
 		$usuario->nombre = $nombre;
 		$usuario->rol = $rol;
+
+		$usuario->tv = $tv;
+		$usuario->firma = $firma;
+		$usuario->privado = $privado;
+		$usuario->prensa = $prensa;
+		$usuario->oficina = $oficina;
+		$usuario->house = $house;
 		try {
 			$usuario->save();
 			return $response->withHeader('Location', BASE_URL."usuarios?m=".base64_encode('Usuario modificado correctamente') );
@@ -292,6 +319,32 @@
 	$app->post("/insert/booking",function($request, $response, $args){
 		$id_usuario = $request->getParsedBodyParam('id_usuario');
 		$id_tipo = $request->getParsedBodyParam('id_tipo');
+
+		$usuario = new Usuario();
+		$usuario = $usuario->find($id_usuario);
+
+		switch ($id_tipo) {
+			case '1':
+				$tipo_evento = 'tv';
+			break;
+			case '2':
+				$tipo_evento = 'firma';
+			break;
+			case '3':
+				$tipo_evento = 'privado';
+			break;
+			case '4':
+				$tipo_evento = 'prensa';
+			break;
+			case '6':
+				$tipo_evento = 'oficina';
+			break;
+			case '7':
+				$tipo_evento = 'house';
+			break;
+		}
+		$precio = $usuario->{$tipo_evento};	
+		
 		$fecha = $request->getParsedBodyParam('fecha')." ".$request->getParsedBodyParam('hora').":00";
 		$id_indumentaria = $request->getParsedBodyParam('id_indumentaria');
 		$comentarios = $request->getParsedBodyParam('comentarios');
@@ -311,17 +364,16 @@
 			$booking->comentarios = $comentarios;
 			$booking->id_solicitante = $id_solicitante;
 			$booking->status = $status;
+			$booking->precio = $precio;
 			try {
 				$booking->save();
-				//Administradores;
 
+				//Administradores;
 				$admins = new Usuario();
 				$admins = $admins->where('rol',1)->get();
 				foreach ($admins as $a) {
 					// Enviar correos a los administradores (que pueden aprobar las solicitudes //Gonzalo)
 					$html = "
-
-
 						<!DOCTYPE html>
 						<html lang='en'>
 						<head>
@@ -343,12 +395,10 @@
 							<p>Para aprobar o rechazar la solicitud haga click <a href='".BASE_URL."operacion-solicitud/".$booking->id."'>aquí</a></p>
 						</body>
 						</html>
-						
+
 					";
 					enviarCorreo($a->id, "Se ha creado una nueva solicitud - Intranet AAA" ,$html);
 				}
-
-				//enviarCorreo(1,1);
 				return $response->withHeader('Location', BASE_URL."bookings?m=".base64_encode('Solicituda agregada correctamente'));
 			} catch (Exception $e) {
 				print_r($e);
@@ -458,8 +508,26 @@
 		}
 	});
 
-
-
-
+	$app->get("/todos-los-eventos",function($request, $response, $args){
+		$start = $_GET['start'];
+		$start = explode("T",$start);
+		$start =  $start[0];
+		$end = $_GET['end'];
+		$end = explode("T",$end);
+		$end =  $end[0];
+		$booking = new Booking();
+		$booking = $booking->where('fecha','>=',$start)->where('fecha','<=',$end)->get();
+		$return = array();
+		foreach ($booking as $b) {
+			$talento = traducirUsuario($b->id_usuario);
+			$indumentaria = traducirIndumentaria($b->id_indumentaria);
+			$r = array(
+				'title' => $talento." ".$indumentaria,
+				'start' => $b->fecha
+			);
+			array_push($return,$r);
+		}
+		return $response->withStatus(200)->withJson($return);
+	});
 
 	$app->run();

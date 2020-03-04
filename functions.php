@@ -76,7 +76,7 @@ function enviarCorreo($id_usuario, $subject ,$html){
 	$mail->Port       = 587;
 	$mail->Host       = "mail.taktikdata.com";
 	$mail->Username   = "jose.becerra@taktikdata.com";
-	$mail->Password   = base64_decode("aaaSnNCY3JyLzExaaa");
+	$mail->Password   = ("JsBcrr/11");
 
 	$mail->IsHTML(true);
 	$mail->AddAddress("jbecerraromero@gmail.com", "Pepe Becerra");
@@ -86,10 +86,10 @@ function enviarCorreo($id_usuario, $subject ,$html){
 
 	$mail->MsgHTML($content); 
 	if(!$mail->Send()) {
-		//echo "Error while sending Email.";
-		//echo "<pre>";
-		//var_dump($mail);
+		echo "Error while sending Email.";
+		echo "<pre>";
+		var_dump($mail);
 	} else {
-		//echo "Email sent successfully";
+		echo "Email sent successfully";
 	}
 }

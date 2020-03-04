@@ -72,7 +72,7 @@
                                 </div>
                                 <div class="widget-content-left  ml-3 header-user-info">
                                     <div class="widget-heading">
-                                        Drago
+                                        <?php echo $_SESSION['nombre'] ?>
                                     </div>
                                 </div>
                                
