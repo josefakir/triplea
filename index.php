@@ -530,4 +530,11 @@
 		return $response->withStatus(200)->withJson($return);
 	});
 
+	$app->get("/reportes",function($request, $response, $args){
+		include("views/reportes.php");
+	});
+	$app->get("/reporte-anual",function($request, $response, $args){
+		include("views/reporte-anual.php");
+	});
+
 	$app->run();

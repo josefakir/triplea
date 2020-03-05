@@ -14,6 +14,7 @@
             <li><a href="<?php echo BASE_URL ?>indumentarias"  class="<?php if (strpos($actual_link, 'indumentarias') || strpos($actual_link, 'agregar-indumentaria') || strpos($actual_link, 'editar-indumentaria') ){echo "mm-active";} ?>"><i class="metismenu-icon pe-7s-scissors"></i>Tipos de indumentaria</a></li>
             <li><a href="<?php echo BASE_URL ?>usuarios"  class="<?php if (strpos($actual_link, 'usuarios') || strpos($actual_link, 'agregar-usuario') || strpos($actual_link, 'editar-usuario') ){echo "mm-active";} ?>"><i class="metismenu-icon pe-7s-user"></i>Usuarios</a></li>
             <li><a href="<?php echo BASE_URL ?>bookings"  class="<?php if (strpos($actual_link, 'bookings') || strpos($actual_link, 'agregar-booking') || strpos($actual_link, 'editar-booking') ){echo "mm-active";} ?>"><i class="metismenu-icon pe-7s-gleam"></i>Bookings</a></li>
+            <li><a href="<?php echo BASE_URL ?>reportes"  class="<?php if (strpos($actual_link, 'reportes') || strpos($actual_link, 'reporte-anual') || strpos($actual_link, 'reporte-por-mes') ){echo "mm-active";} ?>"><i class="metismenu-icon pe-7s-graph2"></i>Reportes</a></li>
         </ul>
     </div>
 </div>

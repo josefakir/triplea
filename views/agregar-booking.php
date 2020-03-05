@@ -58,7 +58,7 @@
                                 <option value="">-Seleccione-</option>
                                 <?php
                                     $usuario = new Usuario();
-                                    $usuario = $usuario->where('rol',3)->get();
+                                    $usuario = $usuario->where('rol',3)->orderBy('nombre','ASC')->get();
                                     foreach ($usuario as $u) {
                                         ?>
                                 <option value="<?php echo $u->id ?>"><?php echo $u->nombre ?></option>
@@ -84,7 +84,7 @@
                         </div>
                         <div class="form-group">
                             <label>Fecha de solicitud</label>
-                            <input type="text" name="fecha" class="datepicker form-control">
+                            <input type="text" name="fecha" class="datepicker form-control" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label>Hora de solicitud</label>

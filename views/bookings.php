@@ -1,7 +1,6 @@
 <?php include('header.php');
     use Mainclass\Models\Booking;
-
- ?>
+?>
 <div class="app-main">
     <div class="app-sidebar sidebar-shadow">
         <div class="app-header__logo">
@@ -130,16 +129,3 @@
     </div>
 </div>
 <?php include("footer.php") ?>
-<!--<script>
-
-      document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-          plugins: [ 'dayGrid' ]
-        });
-
-        calendar.render();
-      });
-
-    </script>-->
