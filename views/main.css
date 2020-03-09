@@ -11,6 +11,13 @@
 #solotalento{
     display:none
 }
+.custom-control-label::before{
+    display:none !important
+}
+.checkbox {
+    margin-bottom: 10px;
+}
+
 /*!
  =========================================================
  * ArchitectUI HTML Theme Dashboard - v1.0.0

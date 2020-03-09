@@ -1,5 +1,6 @@
 <?php include('header.php');
     use Mainclass\Models\Booking;
+    use Mainclass\Models\Rol;
 ?>
 <div class="app-main">
     <div class="app-sidebar sidebar-shadow">
@@ -93,23 +94,32 @@
                                         <td class="text-muted"><?php echo $r->fecha ?></td>
                                         <td class="text-muted"><?php echo traducirIndumentaria($r->id_indumentaria) ?></td>
                                         <?php 
-                                            if($_SESSION['rol']==1){
+                                            $rol = new Rol();
+                                            $rol = $rol->find($_SESSION['rol']);
+                                            
+
+                                            if($rol->permiso_bookings_aprobar==true){
                                                 ?>
                                                 <td class="text-center">
                                                     <a onclick="return confirm('¿Está seguro de querer aprobar?');" href="<?php echo BASE_URL ?>aprobar-booking/<?php echo $r->id ?>" class="btn btn-success btn-sm">Aprobar</a>
-                                                </th>
+                                                </td>
                                                 <td class="text-center">
                                                     <a onclick="return confirm('¿Está seguro de querer rechazar?');" href="<?php echo BASE_URL ?>rechazar-booking/<?php echo $r->id ?>" class="btn btn-danger btn-sm">Rechazar</a>
-                                                </th>
+                                                </td>
+                                                <?php 
+                                            }
+                                            if($rol->permiso_bookings_editar==true){
+                                                ?>
+                                                <td class="text-center">
+                                                    <a href="<?php echo BASE_URL ?>editar-booking/<?php echo $r->id ?>" class="btn btn-primary btn-sm">Editar</a>
+                                                </td>
+                                                <td class="text-center">
+                                                    <a onclick="return confirm('¿Está seguro de querer eliminar?');" href="<?php echo BASE_URL ?>delete/booking/<?php echo $r->id ?>" class="btn btn-danger btn-sm">Eliminar</a>
+                                                </td>
                                                 <?php 
                                             }
                                         ?>
-                                        <td class="text-center">
-                                            <a href="<?php echo BASE_URL ?>editar-booking/<?php echo $r->id ?>" class="btn btn-primary btn-sm">Editar</a>
-                                        </td>
-                                        <td class="text-center">
-                                            <a onclick="return confirm('¿Está seguro de querer eliminar?');" href="<?php echo BASE_URL ?>delete/booking/<?php echo $r->id ?>" class="btn btn-danger btn-sm">Eliminar</a>
-                                        </td>
+                                        
                                         
                                     </tr>
                                         <?php

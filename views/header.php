@@ -15,8 +15,8 @@
 
     <link href='<?php echo BASE_URL ?>views/assets/scripts/fullcalendar/packages/core/main.css' rel='stylesheet' />
     <link href='<?php echo BASE_URL ?>views/assets/scripts/fullcalendar/packages/daygrid/main.css' rel='stylesheet' />
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 
-    
 </head>
 <body>
     <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">

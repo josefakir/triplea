@@ -51,6 +51,34 @@
                             <label for="">Rol:</label>
                             <input class="form-control" type="text" required name="rol">
                         </div>
+                        <div class="checkbox">
+                            <input type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-on="Activado" data-off="Desactivado" name="permiso_dashboard" value="1">
+                            <label class="custom-control-label">Dashboard</label>
+                        </div>
+                        <div class="checkbox">
+                            <input type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-on="Activado" data-off="Desactivado" name="permiso_usuarios" value="1">
+                            <label class="custom-control-label">Usuarios</label>
+                        </div>
+                        <div class="checkbox">
+                            <input type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-on="Activado" data-off="Desactivado" name="permiso_roles" value="1">
+                            <label class="custom-control-label">Roles</label>
+                        </div>
+                        <div class="checkbox">
+                            <input type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-on="Activado" data-off="Desactivado" name="permiso_indumentaria" value="1">
+                            <label class="custom-control-label">Tipos de indumentaria</label>
+                        </div>
+                        <div class="checkbox">
+                            <input type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-on="Activado" data-off="Desactivado" name="permiso_bookings_aprobar" value="1">
+                            <label class="custom-control-label">Bookings Aprobar / Rechazar</label>
+                        </div>
+                        <div class="checkbox">
+                            <input type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-on="Activado" data-off="Desactivado" name="permiso_bookings_editar" value="1">
+                            <label class="custom-control-label">Bookings Editar / Eliminar</label>
+                        </div>
+                        <div class="checkbox">
+                            <input type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-on="Activado" data-off="Desactivado" name="permiso_reportes" value="1">
+                            <label class="custom-control-label">Reportes</label>
+                        </div>
                         <button class="btn btn-success">Agregar Rol</button>
                     </form>
                 </div>

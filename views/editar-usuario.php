@@ -1,6 +1,7 @@
 <?php 
     include('header.php');
     use Mainclass\Models\Usuario; 
+    use Mainclass\Models\Rol; 
 ?>
 <div class="app-main">
     <div class="app-sidebar sidebar-shadow">
@@ -74,9 +75,15 @@
                             <label for="">Rol</label>
                             <select name="rol" id="rol_usuario" class="form-control" required>
                                 <option value="">Seleccione</option>
-                                <option value="1" <?php if($usuario->rol==1){ echo " selected "; } ?>>Administrdor</option>
-                                <option value="2" <?php if($usuario->rol==2){ echo " selected "; } ?>>Editor</option>
-                                <option value="3" <?php if($usuario->rol==3){ echo " selected "; } ?>>Talento (Luchador)</option>
+                                <?php 
+                                    $rol = new Rol();
+                                    $rol = $rol->all();
+                                    foreach ($rol as $r) {
+                                        ?>
+                                <option value="<?php echo $r->id ?>" <?php if($usuario->rol==$r->id){ echo " selected "; } ?>><?php echo $r->nombre ?></option>
+                                        <?php
+                                    }
+                                ?>
                             </select>
                         </div>
                         <div id="solotalento">

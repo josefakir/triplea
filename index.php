@@ -1,4 +1,21 @@
 <?php
+	if (isset($_SERVER['HTTP_ORIGIN'])) {
+        header("Access-Control-Allow-Origin: *");
+        header("Access-Control-Allow-Credentials: true ");
+        header("Access-Control-Allow-Methods: OPTIONS, GET, POST");
+        header("Access-Control-Allow-Headers: Content-Type, Depth, User-Agent, X-File-Size, X-Requested-With, If-Modified-Since, X-File-Name, Cache-Control");
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+
+        if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
+            header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+
+        if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
+            header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
+
+        exit(0);
+    }
 	require "vendor/autoload.php";
 	include "bootstrap.php";
 	include "defines.php";
@@ -214,10 +231,46 @@
 		include("views/agregar-rol.php");
 	});
 	$app->post("/insert/rol",function($request, $response, $args){
+		
 		$rol = $request->getParsedBodyParam('rol');
+		$permiso_dashboard = $request->getParsedBodyParam('permiso_dashboard');
+		if($permiso_dashboard==''){
+			$permiso_dashboard = 0;
+		}
+		$permiso_usuarios = $request->getParsedBodyParam('permiso_usuarios');
+		if($permiso_usuarios==''){
+			$permiso_usuarios = 0;
+		}
+		$permiso_roles = $request->getParsedBodyParam('permiso_roles');
+		if($permiso_roles==''){
+			$permiso_roles = 0;
+		}
+		$permiso_indumentaria = $request->getParsedBodyParam('permiso_indumentaria');
+		if($permiso_indumentaria==''){
+			$permiso_indumentaria = 0;
+		}
+		$permiso_bookings_aprobar = $request->getParsedBodyParam('permiso_bookings_aprobar');
+		if($permiso_bookings_aprobar==''){
+			$permiso_bookings_aprobar = 0;
+		}
+		$permiso_bookings_editar = $request->getParsedBodyParam('permiso_bookings_editar');
+		if($permiso_bookings_editar==''){
+			$permiso_bookings_editar = 0;
+		}
+		$permiso_reportes = $request->getParsedBodyParam('permiso_reportes');
+		if($permiso_reportes==''){
+			$permiso_reportes = 0;
+		}
 		$rols = new Rol();
 		$rols->nombre = $rol;
 		$rols->status = "1";
+		$rols->permiso_usuarios = $permiso_dashboard;
+		$rols->permiso_usuarios = $permiso_usuarios;
+		$rols->permiso_roles = $permiso_roles;
+		$rols->permiso_indumentaria = $permiso_indumentaria;
+		$rols->permiso_bookings_aprobar = $permiso_bookings_aprobar;
+		$rols->permiso_bookings_editar = $permiso_bookings_editar;
+		$rols->permiso_reportes = $permiso_reportes;
 		try {
 			$rols->save();
 			return $response->withHeader('Location', BASE_URL."roles?m=".base64_encode('Rol agregado correctamente') );
@@ -245,9 +298,49 @@
 		$id = $request->getParsedBodyParam('id');
 		$nombre = $request->getParsedBodyParam('rol');
 
+		$permiso_dashboard = $request->getParsedBodyParam('permiso_dashboard');
+		if($permiso_dashboard==''){
+			$permiso_dashboard = 0;
+		}
+		$permiso_usuarios = $request->getParsedBodyParam('permiso_usuarios');
+		if($permiso_usuarios==''){
+			$permiso_usuarios = 0;
+		}
+		$permiso_roles = $request->getParsedBodyParam('permiso_roles');
+		if($permiso_roles==''){
+			$permiso_roles = 0;
+		}
+		$permiso_indumentaria = $request->getParsedBodyParam('permiso_indumentaria');
+		if($permiso_indumentaria==''){
+			$permiso_indumentaria = 0;
+		}
+		$permiso_bookings_aprobar = $request->getParsedBodyParam('permiso_bookings_aprobar');
+		if($permiso_bookings_aprobar==''){
+			$permiso_bookings_aprobar = 0;
+		}
+		$permiso_bookings_editar = $request->getParsedBodyParam('permiso_bookings_editar');
+		if($permiso_bookings_editar==''){
+			$permiso_bookings_editar = 0;
+		}
+		$permiso_reportes = $request->getParsedBodyParam('permiso_reportes');
+		if($permiso_reportes==''){
+			$permiso_reportes = 0;
+		}
+
+
 		$rol = new Rol();
 		$rol = $rol->find($id);
 		$rol->nombre = $nombre;
+
+		$rol->permiso_dashboard = $permiso_dashboard;
+		$rol->permiso_usuarios = $permiso_usuarios;
+		$rol->permiso_roles = $permiso_roles;
+		$rol->permiso_indumentaria = $permiso_indumentaria;
+		$rol->permiso_bookings_aprobar = $permiso_bookings_aprobar;
+		$rol->permiso_bookings_editar = $permiso_bookings_editar;
+		$rol->permiso_reportes = $permiso_reportes;
+
+		print_r($permiso_reportes."asdf");
 		try {
 			$rol->save();
 			return $response->withHeader('Location', BASE_URL."roles?m=".base64_encode('Rol modificado correctamente') );
@@ -535,6 +628,32 @@
 	});
 	$app->get("/reporte-anual",function($request, $response, $args){
 		include("views/reporte-anual.php");
+	});
+
+
+
+
+
+////// APP MOVIL API
+
+	$app->post("/api/v1/login",function($request, $response, $args){
+		$correo = $request->getHeader('correo')[0];
+		$contrasena = md5($request->getHeader('contrasena')[0]);
+		$user = new Usuario();
+		$users = $user->where('correo', $correo)->where('contrasena', $contrasena)->where('status', 1)->get();
+		if($users->count()>0){
+			$payload = [];
+			foreach($users as $u){
+				$payload[] = ['auth' => true, 'apikey' => $u->apikey, 'user_id' => $u->id, 'nombre' => $u->nombre, 'correo' => $u->correo,'avatar' => $u->avatar];
+			}
+			return $response->withStatus(200)->withJson($payload);
+		}else{
+			$payload = array(
+				'status' => 'error',
+				'message' => 'Usuario o contraseña incorrectas'
+			);
+			return $response->withStatus(401)->withJson($payload);
+		}
 	});
 
 	$app->run();
