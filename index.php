@@ -656,4 +656,12 @@
 		}
 	});
 
+	$app->get("/api/v1/eventos/{id_usuario}/{fecha}",function($request, $response, $args){
+		$booking = new Booking();
+		$booking = $booking->where('id_usuario','=',28)->get();
+		//echo "<pre>";
+		//print_r($bookings);
+		return $response->withStatus(200)->withJson($booking);
+	});
+
 	$app->run();
