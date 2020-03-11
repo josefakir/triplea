@@ -658,9 +658,7 @@
 
 	$app->get("/api/v1/eventos/{id_usuario}/{fecha}",function($request, $response, $args){
 		$booking = new Booking();
-		$booking = $booking->where('id_usuario','=',28)->get();
-		//echo "<pre>";
-		//print_r($bookings);
+		$booking = $booking->where('id_usuario','=',$args['id_usuario'])->where('fecha','>=',$args['fecha']." 00:00:00")->where('fecha','<=',$args['fecha']." 23:59:59")->where('status',1)->get();
 		return $response->withStatus(200)->withJson($booking);
 	});
 
