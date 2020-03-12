@@ -182,7 +182,6 @@
 	    }
 
 		$usuario->correo = $correo;
-		$usuario->contrasena = $password;
 		$usuario->nombre = $nombre;
 		$usuario->rol = $rol;
 		$usuario->apikey = $apikey;
@@ -442,6 +441,10 @@
 		$id_indumentaria = $request->getParsedBodyParam('id_indumentaria');
 		$comentarios = $request->getParsedBodyParam('comentarios');
 		$id_solicitante = $_SESSION['id_usuario'];
+		$direccion = $request->getParsedBodyParam('direccion');
+		$latlong = $request->getParsedBodyParam('latlong');
+		$latlong =str_replace("(","",$latlong);
+		$latlong =str_replace(")","",$latlong);
 		$status  = 0;
 
 		$booking = new Booking();
@@ -458,6 +461,8 @@
 			$booking->id_solicitante = $id_solicitante;
 			$booking->status = $status;
 			$booking->precio = $precio;
+			$booking->direccion = $direccion;
+			$booking->latlong = $latlong;
 			try {
 				$booking->save();
 
@@ -658,7 +663,7 @@
 
 	$app->get("/api/v1/eventos/{id_usuario}/{fecha}",function($request, $response, $args){
 		$booking = new Booking();
-		$booking = $booking->where('id_usuario','=',$args['id_usuario'])->where('fecha','>=',$args['fecha']." 00:00:00")->where('fecha','<=',$args['fecha']." 23:59:59")->where('status',1)->get();
+		$booking = $booking->where('id_usuario','=',$args['id_usuario'])->where('fecha','>=',$args['fecha']." 00:00:00")->where('fecha','<=',$args['fecha']." 23:59:59")->where('status',1)->orderBy('fecha','ASC')->get();
 		return $response->withStatus(200)->withJson($booking);
 	});
 
