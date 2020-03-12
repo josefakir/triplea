@@ -204,6 +204,6 @@
         });
       }
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCSdMXkL15l6LKFMQqdsMD7-dAhUHXdFR8&libraries=places&callback=initMap"
+    <script src="<?php echo base64_decode("aHR0cHM6Ly9tYXBzLmdvb2dsZWFwaXMuY29tL21hcHMvYXBpL2pzP2tleT1BSXphU3lDU2RNWGtMMTVsNkxLRk1RcWRzTUQ3LWRBaFVIWGRGUjgmbGlicmFyaWVzPXBsYWNlcyZjYWxsYmFjaz1pbml0TWFw") ?>"
         async defer></script>
 <?php include("footer.php") ?>
