@@ -714,9 +714,22 @@
 			);
 			array_push($return,$r);
 		}
-		
+		return $response->withStatus(200)->withJson($return);
+	});
 
-
+	$app->get("/api/v1/eventos/{id_usuario}/{anio}/{mes}",function($request, $response, $args){
+		$booking = new Booking();
+		$mes1 = $args['mes']-1;
+		$mes2 = $args['mes']+1;
+		$booking = $booking->where('id_usuario','=',$args['id_usuario'])->where('fecha','>=',$args['anio']."-".$mes1."-01 00:00:00")->where('fecha','<=',$args['anio']."-".$mes2."-31 23:59:59")->where('status',1)->orderBy('fecha','ASC')->get();
+		$return = array();
+		foreach($booking as $b){
+			$r = array(
+				'id' => $b->id,
+				'fecha' => $b->fecha,
+			);
+			array_push($return,$r);
+		}
 		return $response->withStatus(200)->withJson($return);
 	});
 
