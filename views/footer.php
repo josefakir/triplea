@@ -16,7 +16,12 @@ crossorigin="anonymous"></script>
 		 startDate: '+0d',
 		 autoclose: true,
     	todayHighlight: true
-	 });
+	 	});
+		 $('.datepicker2').datepicker({
+		 format: 'yyyy-mm-dd',
+		 autoclose: true,
+    	todayHighlight: true
+	 	});
 	})
 </script>
 </body>

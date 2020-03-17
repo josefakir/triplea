@@ -50,38 +50,139 @@
             <?php } ?>
                 <div class="col-md-12">
                     <div class="main-card mb-3 card">
-                        <div class="card-header">Reportes:</div>
-                        <!--<div class="p10">
-                            <div id='calendar'></div>
-                        </div>-->
-
-  
+                        <div class="card-header">Reportes: 
+                            <form action="<?php echo BASE_URL ?>reporte-anual" method="GET">
+                            <select name="anio" id="" style="margin-left:10px" onchange="this.form.submit()">
+                            <option value="2020" <?php if($_GET['anio']==2020){ echo ' selected '; } ?>>2020</option>
+                            <option value="2021" <?php if($_GET['anio']==2021){ echo ' selected '; } ?>>2021</option>
+                            <option value="2022" <?php if($_GET['anio']==2022){ echo ' selected '; } ?>>2022</option>
+                            </select>
+                            
+                            </form>
+                            <br>
+                            <form action="excel" method="POST">
+                                <input type="hidden" name="html_tabla" id="hidden_tabla">
+                                <button style="margin-left:10px"><img src="<?php echo BASE_URL ?>views/assets/images/descargar-excel.png" alt="" style="width: 72px;margin-left: 10px;"></button>
+                            </form>
+                        </div>  
                         <div class="table-responsive">
-                           
-                            <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+                            <table id="table" class="align-middle mb-0 table table-borderless table-striped table-hover">
                                 <thead>
                                     <tr>
                                     <th>#</th>
                                     <th>Talento</th>
-                                    <th>Enero</th>
-                                    <th>Febrero</th>
-                                    <th>Marzo</th>
-                                    <th>Abril</th>
-                                    <th>Mayo</th>
-                                    <th>Junio</th>
-                                    <th>Julio</th>
-                                    <th>Agosto</th>
-                                    <th>Septiembre</th>
-                                    <th>Octubre</th>
-                                    <th>Noviembre</th>
-                                    <th>Diciembre</th>
-                                    <th>Total</th>
-                                    <th>$</th>
+                                    <th colspan="6">Enero</th>
+                                    <th colspan="6">Febrero</th>
+                                    <th colspan="6">Marzo</th>
+                                    <th colspan="6">Abril</th>
+                                    <th colspan="6">Mayo</th>
+                                    <th colspan="6">Junio</th>
+                                    <th colspan="6">Julio</th>
+                                    <th colspan="6">Agosto</th>
+                                    <th colspan="6">Septiembre</th>
+                                    <th colspan="6">Octubre</th>
+                                    <th colspan="6">Noviembre</th>
+                                    <th colspan="6">Diciembre</th>
+                                    <th colspan="6">Total por tipo de evento</th>
+                                    <th colspan="6">$ por tipo de evento</th>
+                                    <th>Total de eventos</th>
+                                    <th>$ total</th>
+                                    </tr>
+                                    <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th>TV</th>
+                                    <th>FA</th>
+                                    <th>EP</th>
+                                    <th>PR</th>
+                                    <th>RO</th>
+                                    <th>HS</th>
+                                    <th>TV</th>
+                                    <th>FA</th>
+                                    <th>EP</th>
+                                    <th>PR</th>
+                                    <th>RO</th>
+                                    <th>HS</th>
+                                    <th>TV</th>
+                                    <th>FA</th>
+                                    <th>EP</th>
+                                    <th>PR</th>
+                                    <th>RO</th>
+                                    <th>HS</th>
+                                    <th>TV</th>
+                                    <th>FA</th>
+                                    <th>EP</th>
+                                    <th>PR</th>
+                                    <th>RO</th>
+                                    <th>HS</th>
+                                    <th>TV</th>
+                                    <th>FA</th>
+                                    <th>EP</th>
+                                    <th>PR</th>
+                                    <th>RO</th>
+                                    <th>HS</th>
+                                    <th>TV</th>
+                                    <th>FA</th>
+                                    <th>EP</th>
+                                    <th>PR</th>
+                                    <th>RO</th>
+                                    <th>HS</th>
+                                    <th>TV</th>
+                                    <th>FA</th>
+                                    <th>EP</th>
+                                    <th>PR</th>
+                                    <th>RO</th>
+                                    <th>HS</th>
+                                    <th>TV</th>
+                                    <th>FA</th>
+                                    <th>EP</th>
+                                    <th>PR</th>
+                                    <th>RO</th>
+                                    <th>HS</th>
+                                    <th>TV</th>
+                                    <th>FA</th>
+                                    <th>EP</th>
+                                    <th>PR</th>
+                                    <th>RO</th>
+                                    <th>HS</th>
+                                    <th>TV</th>
+                                    <th>FA</th>
+                                    <th>EP</th>
+                                    <th>PR</th>
+                                    <th>RO</th>
+                                    <th>HS</th>
+                                    <th>TV</th>
+                                    <th>FA</th>
+                                    <th>EP</th>
+                                    <th>PR</th>
+                                    <th>RO</th>
+                                    <th>HS</th>
+                                    <th>TV</th>
+                                    <th>FA</th>
+                                    <th>EP</th>
+                                    <th>PR</th>
+                                    <th>RO</th>
+                                    <th>HS</th>
+                                    <th>TV</th>
+                                    <th>FA</th>
+                                    <th>EP</th>
+                                    <th>PR</th>
+                                    <th>RO</th>
+                                    <th>HS</th>
+                                    <th>TV</th>
+                                    <th>FA</th>
+                                    <th>EP</th>
+                                    <th>PR</th>
+                                    <th>RO</th>
+                                    <th>HS</th>
+                                    <th></th>
+                                    <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tbody>
                                         <?php 
+                                            $anio = $_GET['anio'];
                                             $usuario = new Usuario();
                                             $usuario = $usuario->where('rol',3)->orderBy('nombre','ASC')->get();
                                             foreach ($usuario as $u) {
@@ -91,108 +192,189 @@
                                                 <tr>
                                                     <td><?php echo $u->id ?></td>
                                                     <td><?php echo $u->nombre ?></td>
-                                                    <td>
+                                                    
+                                                    <?php 
+                                                        for ($i=1; $i < 13 ; $i++) { 
+                                                            ?>
+                                                 <td>
                                                         <?php
-                                                            $enero = new Booking();
-                                                            $enero = $enero->where('fecha','>=','2020-01-01')->where('fecha','<','2020-02-01')->where('id_usuario',$u->id)->where('status',1)->get();
-                                                            $valoresenero = $enero[0];
-                                                            $enero = count($valoresenero);
-                                                            $costo = $valoresenero->precio;
-                                                            echo $enero;
-                                                            $total += $enero;
-                                                            $costo_total += $costo;
+                                                            $b = new Booking();
+                                                            $b = $b->where('fecha','>=',$anio.'-'.$i.'-01')->where('fecha','<=',$anio.'-'.$i.'-31')->where('id_usuario',$u->id)->where('status',1)->where('id_tipo',1)->get();
+                                                            echo count($b);
                                                         ?>
                                                     </td>
                                                     <td>
                                                     <?php
-                                                            $febrero = new Booking();
-                                                            $febrero = $febrero->where('fecha','>=','2020-02-01')->where('fecha','<','2020-03-01')->where('id_usuario',$u->id)->where('status',1)->count();
-                                                            echo $febrero;
-                                                            $total += $febrero;
-                                                    ?>
+                                                            $b = new Booking();
+                                                            $b = $b->where('fecha','>=',$anio.'-'.$i.'-01')->where('fecha','<=',$anio.'-'.$i.'-31')->where('id_usuario',$u->id)->where('status',1)->where('id_tipo',2)->get();
+                                                            echo count($b);
+                                                        ?>
                                                     </td>
                                                     <td>
                                                     <?php
-                                                            $marzo = new Booking();
-                                                            $marzo = $marzo->where('fecha','>=','2020-03-01')->where('fecha','<','2020-04-01')->where('id_usuario',$u->id)->where('status',1)->count();
-                                                            echo $marzo;
-                                                            $total += $marzo;
-                                                    ?>
+                                                            $b = new Booking();
+                                                            $b = $b->where('fecha','>=',$anio.'-'.$i.'-01')->where('fecha','<=',$anio.'-'.$i.'-31')->where('id_usuario',$u->id)->where('status',1)->where('id_tipo',3)->get();
+                                                            echo count($b);
+                                                        ?>
                                                     </td>
                                                     <td>
                                                     <?php
-                                                            $abril = new Booking();
-                                                            $abril = $abril->where('fecha','>=','2020-04-01')->where('fecha','<','2020-05-01')->where('id_usuario',$u->id)->where('status',1)->count();
-                                                            echo $abril;
-                                                            $total += $abril;
-                                                    ?>
+                                                            $b = new Booking();
+                                                            $b = $b->where('fecha','>=',$anio.'-'.$i.'-01')->where('fecha','<=',$anio.'-'.$i.'-31')->where('id_usuario',$u->id)->where('status',1)->where('id_tipo',4)->get();
+                                                            echo count($b);
+                                                        ?>
                                                     </td>
                                                     <td>
                                                     <?php
-                                                            $mayo = new Booking();
-                                                            $mayo = $mayo->where('fecha','>=','2020-05-01')->where('fecha','<','2020-06-01')->where('id_usuario',$u->id)->where('status',1)->count();
-                                                            echo $mayo;
-                                                            $total += $mayo;
-                                                    ?>
+                                                            $b = new Booking();
+                                                            $b = $b->where('fecha','>=',$anio.'-'.$i.'-01')->where('fecha','<=',$anio.'-'.$i.'-31')->where('id_usuario',$u->id)->where('status',1)->where('id_tipo',5)->get();
+                                                            echo count($b);
+                                                        ?>
                                                     </td>
                                                     <td>
                                                     <?php
-                                                            $junio = new Booking();
-                                                            $junio = $junio->where('fecha','>=','2020-06-01')->where('fecha','<','2020-07-01')->where('id_usuario',$u->id)->where('status',1)->count();
-                                                            echo $junio;
-                                                            $total += $junio;
+                                                            $b = new Booking();
+                                                            $b = $b->where('fecha','>=',$anio.'-'.$i.'-01')->where('fecha','<=',$anio.'-'.$i.'-31')->where('id_usuario',$u->id)->where('status',1)->where('id_tipo',6)->get();
+                                                            echo count($b);
+                                                        ?>
+                                                    </td>           
+                                                            <?php
+                                                        }
+                                                    
                                                     ?>
-                                                    </td>
+                                                   <td>
+                                                   <?php
+                                                            $b = new Booking();
+                                                            $b = $b->where('fecha','>=',$anio.'-01-01')->where('fecha','<=',$anio.'-12-31')->where('id_usuario',$u->id)->where('status',1)->where('id_tipo',1)->get();
+                                                            echo count($b);
+                                                    ?>
+                                                    </td>    
                                                     <td>
                                                     <?php
-                                                            $julio = new Booking();
-                                                            $julio = $julio->where('fecha','>=','2020-07-01')->where('fecha','<','2020-08-01')->where('id_usuario',$u->id)->where('status',1)->count();
-                                                            echo $julio;
-                                                            $total += $julio;
+                                                            $b = new Booking();
+                                                            $b = $b->where('fecha','>=',$anio.'-01-01')->where('fecha','<=',$anio.'-12-31')->where('id_usuario',$u->id)->where('status',1)->where('id_tipo',2)->get();
+                                                            echo count($b);
                                                     ?>
-                                                    </td>
+                                                    </td>  
                                                     <td>
                                                     <?php
-                                                            $agosto = new Booking();
-                                                            $agosto = $agosto->where('fecha','>=','2020-08-01')->where('fecha','<','2020-09-01')->where('id_usuario',$u->id)->where('status',1)->count();
-                                                            echo $agosto;
-                                                            $total += $agosto;
+                                                            $b = new Booking();
+                                                            $b = $b->where('fecha','>=',$anio.'-01-01')->where('fecha','<=',$anio.'-12-31')->where('id_usuario',$u->id)->where('status',1)->where('id_tipo',3)->get();
+                                                            echo count($b);
                                                     ?>
-                                                    </td>
+                                                    </td>     
                                                     <td>
                                                     <?php
-                                                            $septiembre = new Booking();
-                                                            $septiembre = $septiembre->where('fecha','>=','2020-09-01')->where('fecha','<','2020-10-01')->where('id_usuario',$u->id)->where('status',1)->count();
-                                                            echo $septiembre;
-                                                            $total += $septiembre;
+                                                            $b = new Booking();
+                                                            $b = $b->where('fecha','>=',$anio.'-01-01')->where('fecha','<=',$anio.'-12-31')->where('id_usuario',$u->id)->where('status',1)->where('id_tipo',4)->get();
+                                                            echo count($b);
                                                     ?>
-                                                    </td>
+                                                    </td>  
                                                     <td>
                                                     <?php
-                                                            $octubre = new Booking();
-                                                            $octubre = $octubre->where('fecha','>=','2020-10-01')->where('fecha','<','2020-11-01')->where('id_usuario',$u->id)->where('status',1)->count();
-                                                            echo $octubre;
-                                                            $total += $octubre;
+                                                            $b = new Booking();
+                                                            $b = $b->where('fecha','>=',$anio.'-01-01')->where('fecha','<=',$anio.'-12-31')->where('id_usuario',$u->id)->where('status',1)->where('id_tipo',5)->get();
+                                                            echo count($b);
                                                     ?>
-                                                    </td>
+                                                    </td>  
                                                     <td>
                                                     <?php
-                                                            $noviembre = new Booking();
-                                                            $noviembre = $noviembre->where('fecha','>=','2020-11-01')->where('fecha','<','2020-12-01')->where('id_usuario',$u->id)->where('status',1)->count();
-                                                            echo $noviembre;
-                                                            $total += $noviembre;
+                                                            $b = new Booking();
+                                                            $b = $b->where('fecha','>=',$anio.'-01-01')->where('fecha','<=',$anio.'-12-31')->where('id_usuario',$u->id)->where('status',1)->where('id_tipo',6)->get();
+                                                            echo count($b);
                                                     ?>
-                                                    </td>
+                                                    </td>  
                                                     <td>
                                                     <?php
-                                                            $diciembre = new Booking();
-                                                            $diciembre = $diciembre->where('fecha','>=','2020-12-01')->where('fecha','<','2021-01-01')->where('id_usuario',$u->id)->where('status',1)->count();
-                                                            echo $diciembre;
-                                                            $total += $diciembre;
+                                                            $b = new Booking();
+                                                            $b = $b->where('fecha','>=',$anio.'-01-01')->where('fecha','<=',$anio.'-12-31')->where('id_usuario',$u->id)->where('status',1)->where('id_tipo',1)->get();
+                                                            $money = 0;
+                                                            foreach ($b as $m) {
+                                                                $money += $m->precio;
+                                                            }
+                                                            echo '$'.number_format($money,2);
+                                                            
                                                     ?>
-                                                    </td>
-                                                    <td><?php echo $total; ?></td>
-                                                    <td><?php echo $costo_total; ?></td>
+                                                    </td>   
+                                                    <td>
+                                                    <?php
+                                                            $b = new Booking();
+                                                            $b = $b->where('fecha','>=',$anio.'-01-01')->where('fecha','<=',$anio.'-12-31')->where('id_usuario',$u->id)->where('status',1)->where('id_tipo',2)->get();
+                                                            $money = 0;
+                                                            foreach ($b as $m) {
+                                                                $money += $m->precio;
+                                                            }
+                                                            echo '$'.number_format($money,2);
+                                                            
+                                                    ?>
+                                                    </td>    
+                                                    <td>
+                                                    <?php
+                                                            $b = new Booking();
+                                                            $b = $b->where('fecha','>=',$anio.'-01-01')->where('fecha','<=',$anio.'-12-31')->where('id_usuario',$u->id)->where('status',1)->where('id_tipo',3)->get();
+                                                            $money = 0;
+                                                            foreach ($b as $m) {
+                                                                $money += $m->precio;
+                                                            }
+                                                            echo '$'.number_format($money,2);
+                                                            
+                                                    ?>
+                                                    </td>  
+                                                    <td>
+                                                    <?php
+                                                            $b = new Booking();
+                                                            $b = $b->where('fecha','>=',$anio.'-01-01')->where('fecha','<=',$anio.'-12-31')->where('id_usuario',$u->id)->where('status',1)->where('id_tipo',4)->get();
+                                                            $money = 0;
+                                                            foreach ($b as $m) {
+                                                                $money += $m->precio;
+                                                            }
+                                                            echo '$'.number_format($money,2);
+                                                            
+                                                    ?>
+                                                    </td>  
+                                                    <td>
+                                                    <?php
+                                                            $b = new Booking();
+                                                            $b = $b->where('fecha','>=',$anio.'-01-01')->where('fecha','<=',$anio.'-12-31')->where('id_usuario',$u->id)->where('status',1)->where('id_tipo',5)->get();
+                                                            $money = 0;
+                                                            foreach ($b as $m) {
+                                                                $money += $m->precio;
+                                                            }
+                                                            echo '$'.number_format($money,2);
+                                                            
+                                                    ?>
+                                                    </td>  
+                                                    <td>
+                                                    <?php
+                                                            $b = new Booking();
+                                                            $b = $b->where('fecha','>=',$anio.'-01-01')->where('fecha','<=',$anio.'-12-31')->where('id_usuario',$u->id)->where('status',1)->where('id_tipo',6)->get();
+                                                            $money = 0;
+                                                            foreach ($b as $m) {
+                                                                $money += $m->precio;
+                                                            }
+                                                            echo '$'.number_format($money,2);
+                                                            
+                                                    ?>
+                                                    </td>  
+                                                    <td>
+                                                    <?php
+                                                            $b = new Booking();
+                                                            $b = $b->where('fecha','>=',$anio.'-01-01')->where('fecha','<=',$anio.'-12-31')->where('id_usuario',$u->id)->where('status',1)->get();
+                                                            echo count($b)
+                                                            
+                                                    ?>
+                                                    </td>  
+                                                    <td>
+                                                    <?php
+                                                            $b = new Booking();
+                                                            $b = $b->where('fecha','>=',$anio.'-01-01')->where('fecha','<=',$anio.'-12-31')->where('id_usuario',$u->id)->where('status',1)->get();
+                                                            $money = 0;
+                                                            foreach ($b as $m) {
+                                                                $money += $m->precio;
+                                                            }
+                                                            echo '$'.number_format($money,2);
+                                                    ?>
+                                                    </td>  
                                                 </tr>
                                                 <?php
                                             }
@@ -200,9 +382,9 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="d-block text-center card-footer">
+                            <!--<div class="d-block text-center card-footer">
                                 <a href="<?php echo BASE_URL ?>agregar-booking" class="btn-wide btn btn-success">Descargar a Excel</a>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                 </div>
@@ -211,3 +393,8 @@
     </div>
 </div>
 <?php include("footer.php") ?>
+<script>
+    $(document).ready(function(){
+        $('#hidden_tabla').val($('#table').parent().html());
+    })
+</script>

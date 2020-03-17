@@ -53,20 +53,35 @@
                 <div class="col-md-12">
                     <form method="post" action="<?php echo BASE_URL ?>insert/booking">
                         <div class="form-group">
-                            <label for="">Talento (Luchador)</label>
-                            <select name="id_usuario" class="form-control" required>
-                                <option value="">-Seleccione-</option>
+                            <label>Fecha de solicitud</label>
+                            <input type="text" name="fecha" class="datepicker form-control buscar_disponibles" autocomplete="off" id="fecha_buscar">
+                        </div>
+                        <div class="form-group">
+                            <label>Hora de solicitud</label>
+                            <select name="hora" class="form-control buscar_disponibles" id="hora_buscar">
                                 <?php
-                                    $usuario = new Usuario();
-                                    $usuario = $usuario->where('rol',3)->orderBy('nombre','ASC')->get();
-                                    foreach ($usuario as $u) {
-                                        ?>
-                                <option value="<?php echo $u->id ?>"><?php echo $u->nombre ?></option>
-                                        <?php
+                                for ($i=0; $i < 24 ; $i++) { 
+                                        $ipadded = sprintf("%02d", $i);
+                                        echo "<option value='$ipadded:00' $selected0>$ipadded:00</option>\n";
+                                        echo "<option value='$ipadded:00' $selected1>$ipadded:30</option>\n";
+
                                     }
                                 ?>
                             </select>
                         </div>
+                        <div class="row">
+                        <div class="form-group col">
+                            <label for="">Talento (Luchador) Disponible</label>
+                            <select name="id_usuario[]" class="form-control" required multiple id="id_usuario"  style="height: 400px;">
+                                <option value="">-Seleccione-</option>
+                            </select>
+                        </div>
+                        <div class="form-group col">
+                            <label for="">No disponibles</label>
+                            <ul id="lista_no_disponibles"></ul>
+                        </div>
+                        </div>
+                        
                         <div class="form-group">
                             <label for="">Tipo de evento</label>
                             <select name="id_tipo" class="form-control" required>
@@ -82,23 +97,8 @@
                                 ?>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label>Fecha de solicitud</label>
-                            <input type="text" name="fecha" class="datepicker form-control" autocomplete="off">
-                        </div>
-                        <div class="form-group">
-                            <label>Hora de solicitud</label>
-                            <select name="hora" class="form-control">
-                                <?php
-                                for ($i=0; $i < 24 ; $i++) { 
-                                        $ipadded = sprintf("%02d", $i);
-                                        echo "<option value='$ipadded:00' $selected0>$ipadded:00</option>\n";
-                                        echo "<option value='$ipadded:00' $selected1>$ipadded:30</option>\n";
-
-                                    }
-                                ?>
-                            </select>
-                        </div>
+                        
+                        
                         <div class="form-group">
                             <label>Indumentaria</label>
                             <select name="id_indumentaria" class="form-control" requred>
@@ -206,4 +206,30 @@
     </script>
     <script src="<?php echo base64_decode("aHR0cHM6Ly9tYXBzLmdvb2dsZWFwaXMuY29tL21hcHMvYXBpL2pzP2tleT1BSXphU3lDU2RNWGtMMTVsNkxLRk1RcWRzTUQ3LWRBaFVIWGRGUjgmbGlicmFyaWVzPXBsYWNlcyZjYWxsYmFjaz1pbml0TWFw") ?>"
         async defer></script>
+
+
+       
 <?php include("footer.php") ?>
+<script>
+    $(document).ready(function(){
+        $('.buscar_disponibles').change(function(){
+            $.ajax({
+                url : '<?php echo BASE_URL ?>api/v1/disponibles/'+$('#fecha_buscar').val()+'/'+$('#hora_buscar').val(),
+                success : function(data){
+                    var disponibles = data[0].disponibles;
+                    var nodisponibles = data[1].nodisponibles;
+                    var outputdisponibles = '';
+                    var outputnodisponibles = '';
+                    $.each(disponibles,function( index, value ) {
+                        outputdisponibles += '<option value="'+value.id+'">'+value.nombre+'</option>';
+                    });
+                    $.each(nodisponibles,function( index, value ) {
+                        outputnodisponibles += '<li>'+value.nombre+'</li>';
+                    });
+                    $('#id_usuario').html(outputdisponibles)
+                    $('#lista_no_disponibles').html(outputnodisponibles)
+                }
+            })
+        })
+    })
+</script>

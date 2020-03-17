@@ -25,6 +25,7 @@
         <input type="text" id="login" class="fadeIn second" name="email" placeholder="Correo electrónico" required>
         <input type="password" id="password" class="fadeIn third" name="password" placeholder="Contraseña" required>
         <input type="submit" class="fadeIn fourth" value="Iniciar Sesión">
+        <input type="hidden" name="redirect" value="<?php echo base64_decode(htmlentities($_GET['redirect'])) ?>">
         <p class="error"><?php echo base64_decode(htmlentities($_GET['m'])) ?></p>
       </form>
 

@@ -64,11 +64,11 @@
                                 </thead>
                                 <tbody>
                                     <tbody>
-                                    <tr><td><a href="<?php echo BASE_URL ?>reporte-anual">Reporte anual</a></td></tr>
-                                    <tr><td><a href="<?php echo BASE_URL ?>reporte-mensual">Reporte mensual</a></td></tr>
-                                    <tr><td><a href="<?php echo BASE_URL ?>ranking-anual">Ranking luchadores anual</a></td></tr>
-                                    <tr><td><a href="<?php echo BASE_URL ?>ranking-mensual">Ranking luchadores mensual</a></td></tr>
-                                    <tr><td><a href="<?php echo BASE_URL ?>reporte-usuarios">Usuarios en el sistema</a></td></tr>
+                                    <tr><td><a href="<?php echo BASE_URL ?>reporte-anual?anio=<?php echo date('Y') ?>">Reporte anual</a></td></tr>
+                                    <tr><td><a href="<?php echo BASE_URL ?>reporte-mensual?anio=<?php echo date('Y') ?>&mes=<?php echo date('m') ?>">Reporte mensual</a></td></tr>
+                                    <tr><td><a href="<?php echo BASE_URL ?>reporte-por-fecha">Reporte por fecha</a></td></tr>
+                                    <tr><td><a href="<?php echo BASE_URL ?>ranking-anual-cantidad?anio=<?php echo date('Y') ?>">Ranking luchadores anual (Cantidad de eventos)</a></td></tr>
+                                    <tr><td><a href="<?php echo BASE_URL ?>ranking-anual-dinero?anio=<?php echo date('Y') ?>">Ranking luchadores anual (Cantidad de dinero)</a></td></tr>
                                     </tbody>
                                 </table>
                             </div>

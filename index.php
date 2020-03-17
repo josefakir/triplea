@@ -29,6 +29,7 @@
 
 	use Mainclass\Middleware\Logging as Logging;
 	use Mainclass\Middleware\Redirectlogin as Redirectlogin;
+	use Mainclass\Middleware\Authentication as Authentication;
 
 
 
@@ -43,7 +44,6 @@
 	$app->get("/logout",function($request, $response, $args){
 		session_destroy();
 		return $response->withHeader('Location', BASE_URL.'' );
-		
 	});
 
 	$app->post("/login",function($request, $response, $args){
@@ -63,7 +63,12 @@
 				}else{
 					$_SESSION['avatar'] = $users[0]->avatar;
 				}
-				return $response->withHeader('Location', BASE_URL.'/inicio' );
+				if(!empty($request->getParsedBodyParam('redirect'))){
+					$redirect = ($request->getParsedBodyParam('redirect'));
+					return $response->withHeader('Location', $redirect );
+				}else{
+					return $response->withHeader('Location', BASE_URL.'/inicio' );
+				}
 		}else{
 			return $response->withHeader('Location', BASE_URL."?m=".base64_encode('Usuario o contraseña incorrectos') );
 		}
@@ -71,20 +76,20 @@
 
 	$app->get("/inicio",function($request, $response, $args){
 		include("views/inicio.php");
-	});
+	})->add(new Authentication());
 
 
 	$app->get("/usuarios",function($request, $response, $args){
 		include("views/usuarios.php");
-	});
+	})->add(new Authentication());
 
 	$app->get("/agregar-usuario",function($request, $response, $args){
 		include("views/agregar-usuario.php");
-	});
+	})->add(new Authentication());
 
 	$app->get("/editar-usuario/{id}",function($request, $response, $args){
 		include("views/editar-usuario.php");
-	});
+	})->add(new Authentication());
 
 	$app->post("/insert/usuario",function($request, $response, $args){
 		$correo = $request->getParsedBodyParam('correo');
@@ -140,7 +145,7 @@
 		} catch (Exception $e) {
 			print_r($e);
 		}
-	});
+	})->add(new Authentication());
 
 	$app->post("/update/usuario",function($request, $response, $args){
 		$id = $request->getParsedBodyParam('id');
@@ -210,7 +215,7 @@
 		} catch (Exception $e) {
 			print_r($e);
 		}
-	});
+	})->add(new Authentication());
 
 	$app->get("/delete/usuario/{id}",function($request, $response, $args){
 		$usuario = new Usuario();
@@ -221,14 +226,14 @@
 		} catch (Exception $e) {
 			print_r($e);
 		}
-	});
+	})->add(new Authentication());
 	
 	$app->get("/roles",function($request, $response, $args){
 		include("views/roles.php");
-	});
+	})->add(new Authentication());
 	$app->get("/agregar-rol",function($request, $response, $args){
 		include("views/agregar-rol.php");
-	});
+	})->add(new Authentication());
 	$app->post("/insert/rol",function($request, $response, $args){
 		
 		$rol = $request->getParsedBodyParam('rol');
@@ -276,7 +281,7 @@
 		} catch (Exception $e) {
 			print_r($e);
 		}
-	});
+	})->add(new Authentication());
 	$app->get("/delete/rol/{id}",function($request, $response, $args){
 		$rol = new Rol();
 		$rol = $rol->find($args['id']);
@@ -287,11 +292,11 @@
 		} catch (Exception $e) {
 			print_r($e);
 		}
-	});
+	})->add(new Authentication());
 
 	$app->get("/editar-rol/{id}",function($request, $response, $args){
 		include("views/editar-rol.php");
-	});
+	})->add(new Authentication());
 
 	$app->post("/update/rol",function($request, $response, $args){
 		$id = $request->getParsedBodyParam('id');
@@ -346,14 +351,14 @@
 		} catch (Exception $e) {
 			print_r($e);
 		}
-	});
+	})->add(new Authentication());
 
 	$app->get("/tipos",function($request, $response, $args){
 		include("views/tipos.php");
-	});
+	})->add(new Authentication());
 	$app->get("/agregar-tipo",function($request, $response, $args){
 		include("views/agregar-tipo.php");
-	});
+	})->add(new Authentication());
 
 	$app->post("/insert/tipo",function($request, $response, $args){
 		$tipo = $request->getParsedBodyParam('tipo');
@@ -366,11 +371,11 @@
 		} catch (Exception $e) {
 			print_r($e);
 		}
-	});
+	})->add(new Authentication());
 
 	$app->get("/editar-tipo/{id}",function($request, $response, $args){
 		include("views/editar-tipo.php");
-	});
+	})->add(new Authentication());
 
 	$app->get("/delete/tipo/{id}",function($request, $response, $args){
 		$rol = new Tipo();
@@ -382,7 +387,7 @@
 		} catch (Exception $e) {
 			print_r($e);
 		}
-	});
+	})->add(new Authentication());
 
 	$app->post("/update/tipo",function($request, $response, $args){
 		$id = $request->getParsedBodyParam('id');
@@ -397,124 +402,123 @@
 		} catch (Exception $e) {
 			print_r($e);
 		}
-	});
+	})->add(new Authentication());
 
 
 	$app->get("/bookings",function($request, $response, $args){
 		include("views/bookings.php");
-	});
+	})->add(new Authentication());
 
 	$app->get("/agregar-booking",function($request, $response, $args){
 		include("views/agregar-booking.php");
-	});
+	})->add(new Authentication());
 
 	$app->post("/insert/booking",function($request, $response, $args){
-		$id_usuario = $request->getParsedBodyParam('id_usuario');
-		$id_tipo = $request->getParsedBodyParam('id_tipo');
-
-		$usuario = new Usuario();
-		$usuario = $usuario->find($id_usuario);
-
-		switch ($id_tipo) {
-			case '1':
-				$tipo_evento = 'tv';
-			break;
-			case '2':
-				$tipo_evento = 'firma';
-			break;
-			case '3':
-				$tipo_evento = 'privado';
-			break;
-			case '4':
-				$tipo_evento = 'prensa';
-			break;
-			case '6':
-				$tipo_evento = 'oficina';
-			break;
-			case '7':
-				$tipo_evento = 'house';
-			break;
-		}
-		$precio = $usuario->{$tipo_evento};	
-		
-		$fecha = $request->getParsedBodyParam('fecha')." ".$request->getParsedBodyParam('hora').":00";
-		$id_indumentaria = $request->getParsedBodyParam('id_indumentaria');
-		$comentarios = $request->getParsedBodyParam('comentarios');
-		$id_solicitante = $_SESSION['id_usuario'];
-		$direccion = $request->getParsedBodyParam('direccion');
-		$latlong = $request->getParsedBodyParam('latlong');
-		$latlong =str_replace("(","",$latlong);
-		$latlong =str_replace(")","",$latlong);
-		$status  = 0;
-
-		$booking = new Booking();
-		$booking = $booking->where('id_usuario',$id_usuario)->where('fecha',$fecha)->where('status','<>',1)->get();
-		$count = count($booking);
-
-		if($count==0){
-			$booking = new Booking();
-			$booking->id_usuario = $id_usuario;
-			$booking->id_tipo = $id_tipo;
-			$booking->fecha = $fecha;
-			$booking->id_indumentaria = $id_indumentaria;
-			$booking->comentarios = $comentarios;
-			$booking->id_solicitante = $id_solicitante;
-			$booking->status = $status;
-			$booking->precio = $precio;
-			$booking->direccion = $direccion;
-			$booking->latlong = $latlong;
-			try {
-				$booking->save();
-
-				//Administradores;
-				$admins = new Usuario();
-				$admins = $admins->where('rol',1)->get();
-				foreach ($admins as $a) {
-					// Enviar correos a los administradores (que pueden aprobar las solicitudes //Gonzalo)
-					$html = "
-						<!DOCTYPE html>
-						<html lang='en'>
-						<head>
-							<meta charset='UTF-8'>
-							<title>Document</title>
-						</head>
-						<body>
-							<p style='text-align: center;'>
-								<img src='".BASE_URL."assets/img/logo.png' alt='' style='width: 80px'>
-							</p>
-							<p style='font-family: arial'>Has recibido una solicitud de talento:</p>
-							<p>Solicita: <strong>".traducirUsuario($id_solicitante)."</strong></p>
-							<p>Talento: <strong>".traducirUsuario($id_usuario)."</strong></p>
-							<p>Tipo de evento: <strong>".traducirTipo($id_tipo)."</strong></p>
-							<p>Indumentaria: <strong>".traducirIndumentaria($id_indumentaria)."</strong></p>
-							<p>Fecha: <strong>".$fecha."</strong></p>
-							<p>Comentarios: <strong>".$comentarios."</strong></p>
-							<p>&nbsp;</p>
-							<p>Para aprobar o rechazar la solicitud haga click <a href='".BASE_URL."operacion-solicitud/".$booking->id."'>aquí</a></p>
-						</body>
-						</html>
-
-					";
-					enviarCorreo($a->id, "Se ha creado una nueva solicitud - Intranet AAA" ,$html);
-				}
-				return $response->withHeader('Location', BASE_URL."bookings?m=".base64_encode('Solicituda agregada correctamente'));
-			} catch (Exception $e) {
-				print_r($e);
-			}
-		}else{
-			return $response->withHeader('Location', BASE_URL."bookings?m=".base64_encode('Ya hay una solicitud aprobada para ese talento en esa fecha y hora') );
-		}
 		/* 
 			LEYENDA DE STATUS :
 			0 = Solicitado
 			1 = Aprobado
 			2 = Rechazado
 		*/
-	});
+
+		try {
+			$id_usuario = $request->getParsedBodyParam('id_usuario');
+			$fecha = $request->getParsedBodyParam('fecha')." ".$request->getParsedBodyParam('hora').":00";
+
+			$id_indumentaria = $request->getParsedBodyParam('id_indumentaria');
+			$comentarios = $request->getParsedBodyParam('comentarios');
+			$id_solicitante = $_SESSION['id_usuario'];
+			$direccion = $request->getParsedBodyParam('direccion');
+			$latlong = $request->getParsedBodyParam('latlong');
+			$id_tipo = $request->getParsedBodyParam('id_tipo');
+			$latlong =str_replace("(","",$latlong);
+			$latlong =str_replace(")","",$latlong);
+			$status  = 0;
+
+			switch ($id_tipo) {
+				case '1':
+					$tipo_evento = 'tv';
+				break;
+				case '2':
+					$tipo_evento = 'firma';
+				break;
+				case '3':
+					$tipo_evento = 'privado';
+				break;
+				case '4':
+					$tipo_evento = 'prensa';
+				break;
+				case '6':
+					$tipo_evento = 'oficina';
+				break;
+				case '7':
+					$tipo_evento = 'house';
+				break;
+			}
+
+
+			$html ="
+			<!DOCTYPE html>
+			<html lang='en'>
+			<head>
+				<meta charset='UTF-8'>
+				<title>Document</title>
+			</head>
+			<body>
+				<p style='text-align: center;'>
+					<img src='".BASE_URL."assets/img/logo.png' alt='' style='width: 80px'>
+				</p>
+				<p style='font-family: arial'>Has recibido una solicitud de talento:</p>
+				<p>Solicita: <strong>".traducirUsuario($id_solicitante)."</strong></p>
+				<p>Tipo de evento: <strong>".traducirTipo($id_tipo)."</strong></p>
+				<p>Indumentaria: <strong>".traducirIndumentaria($id_indumentaria)."</strong></p>
+				<p>Fecha: <strong>".$fecha."</strong></p>
+				<p>Talento: </p>
+				<ul>
+			";
+
+
+			foreach ($id_usuario as $i) {
+				
+				$usuario = new Usuario();
+				$usuario = $usuario->find($i);
+				$precio = $usuario->{$tipo_evento};	
+				
+				$html .= "
+					<li>".traducirUsuario($i)."</li>
+				";
+				$booking = new Booking();
+				$booking->id_usuario = $i;
+				$booking->id_tipo = $id_tipo;
+				$booking->fecha = $fecha;
+				$booking->id_indumentaria = $id_indumentaria;
+				$booking->comentarios = $comentarios;
+				$booking->id_solicitante = $id_solicitante;
+				$booking->status = $status;
+				$booking->precio = $precio;
+				$booking->direccion = $direccion;
+				$booking->latlong = $latlong;
+
+				$booking->save();
+			}
+			$html .= "
+				</ul>
+				<p>Comentarios: <strong>".$comentarios."</strong></p>
+				<p>&nbsp;</p>
+				<p>Para aprobar o rechazar la solicitud haga click <a href='".BASE_URL."bookings'>aquí</a></p>
+			</body>
+			</html>
+			";
+			enviarCorreo($a->id, "Se ha creado una nueva solicitud - Intranet AAA" ,$html);
+			return $response->withHeader('Location', BASE_URL."bookings?m=".base64_encode('Solicituda agregada correctamente'));
+		} catch (Exception $e) {
+			return $response->withHeader('Location', BASE_URL."bookings?m=".base64_encode('Hubo un error') );
+		}
+	})->add(new Authentication());
 	
 	$app->get("/operacion-solicitud/{id}",function($request, $response, $args){
 		include("views/operacion-solicitud.php");
-	});
+	})->add(new Authentication());
 
 	$app->get("/delete/booking/{id}",function($request, $response, $args){
 		$booking = new Booking();
@@ -526,12 +530,11 @@
 		} catch (Exception $e) {
 			print_r($e);
 		}
-	});
+	})->add(new Authentication());
 
 	$app->get("/editar-booking/{id}",function($request, $response, $args){
 		include("views/editar-booking.php");
-	});
-
+	})->add(new Authentication());
 	$app->get("/aprobar-booking/{id}",function($request, $response, $args){
 		$booking = new Booking();
 		$booking = $booking->find($args['id']);
@@ -542,7 +545,7 @@
 		} catch (Exception $e) {
 			print_r($e);
 		}
-	});
+	})->add(new Authentication());
 	$app->get("/rechazar-booking/{id}",function($request, $response, $args){
 		$booking = new Booking();
 		$booking = $booking->find($args['id']);
@@ -553,16 +556,13 @@
 		} catch (Exception $e) {
 			print_r($e);
 		}
-	});
-
-
-
+	})->add(new Authentication());
 	$app->get("/indumentarias",function($request, $response, $args){
 		include("views/indumentarias.php");
-	});
+	})->add(new Authentication());
 	$app->get("/agregar-indumentaria",function($request, $response, $args){
 		include("views/agregar-indumentaria.php");
-	});
+	})->add(new Authentication());
 	$app->post("/insert/indumentaria",function($request, $response, $args){
 		$nombre = $request->getParsedBodyParam('indumentaria');
 		$indumentaria = new Indumentaria();
@@ -574,7 +574,7 @@
 		} catch (Exception $e) {
 			print_r($e);
 		}
-	});
+	})->add(new Authentication());
 	$app->get("/delete/indumentaria/{id}",function($request, $response, $args){
 		$indumentaria = new Indumentaria();
 		$indumentaria = $indumentaria->find($args['id']);
@@ -585,12 +585,10 @@
 		} catch (Exception $e) {
 			print_r($e);
 		}
-	});
-
+	})->add(new Authentication());
 	$app->get("/editar-indumentaria/{id}",function($request, $response, $args){
 		include("views/editar-indumentaria.php");
-	});
-
+	})->add(new Authentication());
 	$app->post("/update/indumentaria",function($request, $response, $args){
 		$id = $request->getParsedBodyParam('id');
 		$nombre = $request->getParsedBodyParam('rol');
@@ -604,7 +602,7 @@
 		} catch (Exception $e) {
 			print_r($e);
 		}
-	});
+	})->add(new Authentication());
 
 	$app->get("/todos-los-eventos",function($request, $response, $args){
 		$start = $_GET['start'];
@@ -626,17 +624,54 @@
 			array_push($return,$r);
 		}
 		return $response->withStatus(200)->withJson($return);
-	});
+	})->add(new Authentication());
 
 	$app->get("/reportes",function($request, $response, $args){
 		include("views/reportes.php");
-	});
+	})->add(new Authentication());
 	$app->get("/reporte-anual",function($request, $response, $args){
 		include("views/reporte-anual.php");
-	});
+	})->add(new Authentication());
+	$app->get("/reporte-mensual",function($request, $response, $args){
+		include("views/reporte-mensual.php");
+	})->add(new Authentication());
+	$app->get("/reporte-por-fecha",function($request, $response, $args){
+		include("views/reporte-por-fecha.php");
+	})->add(new Authentication());
 
+	$app->get("/ranking-anual-cantidad",function($request, $response, $args){
+		include("views/ranking-anual-cantidad.php");
+	})->add(new Authentication());
 
+	$app->get("/ranking-anual-dinero",function($request, $response, $args){
+		include("views/ranking-anual-dinero.php");
+	})->add(new Authentication());
 
+	$app->post("/excel",function($request, $response, $args){
+		$filename = "Reporte.xlsx";
+		$table  = $request->getParsedBodyParam('html_tabla');
+
+		// save $table inside temporary file that will be deleted later
+		$tmpfile = tempnam(sys_get_temp_dir(), 'html');
+		file_put_contents($tmpfile, $table);
+
+		// insert $table into $objPHPExcel's Active Sheet through $excelHTMLReader
+		$objPHPExcel     = new PHPExcel();
+		$excelHTMLReader = PHPExcel_IOFactory::createReader('HTML');
+		$excelHTMLReader->loadIntoExisting($tmpfile, $objPHPExcel);
+		$objPHPExcel->getActiveSheet()->setTitle('any name you want'); // Change sheet's title if you want
+
+		unlink($tmpfile); // delete temporary file because it isn't needed anymore
+
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'); // header for .xlxs file
+		header('Content-Disposition: attachment;filename='.$filename); // specify the download file name
+		header('Cache-Control: max-age=0');
+
+		// Creates a writer to output the $objPHPExcel's content
+		$writer = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+		$writer->save('php://output');
+		exit;
+	})->add(new Authentication());
 
 
 ////// APP MOVIL API
@@ -664,7 +699,69 @@
 	$app->get("/api/v1/eventos/{id_usuario}/{fecha}",function($request, $response, $args){
 		$booking = new Booking();
 		$booking = $booking->where('id_usuario','=',$args['id_usuario'])->where('fecha','>=',$args['fecha']." 00:00:00")->where('fecha','<=',$args['fecha']." 23:59:59")->where('status',1)->orderBy('fecha','ASC')->get();
-		return $response->withStatus(200)->withJson($booking);
+		$return = array();
+		foreach($booking as $b){
+			$r = array(
+				'id' => $b->id,
+				'solicitante' => traducirUsuario($b->id_solicitante),
+				'talento' => traducirUsuario($b->id_usuario),
+				'indumentaria' => traducirIndumentaria($b->id_indumentaria),
+				'fecha' => $b->fecha,
+				'comentarios' => $b->comentarios,
+				'direccion' => $b->direccion,
+				'latlong' => $b->latlong,
+				'evento' => traducirTipo($b->id_tipo)
+			);
+			array_push($return,$r);
+		}
+		
+
+
+		return $response->withStatus(200)->withJson($return);
+	});
+
+	$app->get("/api/v1/disponibles/{fecha}/{hora}",function($request, $response, $args){
+		$fecha = $args['fecha']." ".$args['hora'];
+		$date1 = new \DateTime($fecha);
+		$date1->modify('-1 hours');
+		$formatted_date1 = $date1->format('Y-m-d H:i:s');
+
+		$date2 = new \DateTime($fecha);
+		$date2->modify('+2 hours');
+		$formatted_date2 = $date2->format('Y-m-d H:i:s');
+
+		$booking = new Booking();
+		$booking = $booking->join('usuarios', 'usuarios.id', '=','bookings.id_usuario')->select('usuarios.id')->where('fecha','>=',$formatted_date1 )->where('fecha','<=',$formatted_date2 )->where('bookings.status',1 )->get();
+		$notin = array();
+		foreach ($booking as $b) {
+			array_push($notin,$b->id);
+		}
+		$available = new Usuario();
+		$available = $available->whereNotIn('id',$notin)->where('rol',3)->where('status',1)->orderBy('nombre', 'ASC')->get();
+		$disponibles = array();
+		$return = array();
+		foreach ($available as $a) {
+			$luchador = array(
+				'id' => $a->id,
+				'nombre' => $a->nombre
+			);
+			array_push($disponibles,$luchador);
+		}
+		array_push($return,array('disponibles' => $disponibles));
+
+
+		$unavailable = new Usuario();
+		$unavailable = $unavailable->whereIn('id',$notin)->where('rol',3)->where('status',1)->orderBy('nombre', 'ASC')->get();
+		$nodisponibles = array();
+		foreach ($unavailable as $a) {
+			$luchador = array(
+				'id' => $a->id,
+				'nombre' => $a->nombre
+			);
+			array_push($nodisponibles,$luchador);
+		}
+		array_push($return,array('nodisponibles' => $nodisponibles));
+		return $response->withStatus(200)->withJson($return);
 	});
 
 	$app->run();
