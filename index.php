@@ -26,6 +26,8 @@
 	use Mainclass\Models\Tipo;
 	use Mainclass\Models\Rol;
 	use Mainclass\Models\Indumentaria;
+	use Mainclass\Models\Pais;
+	use Mainclass\Models\Banco;
 
 	use Mainclass\Middleware\Logging as Logging;
 	use Mainclass\Middleware\Redirectlogin as Redirectlogin;
@@ -50,7 +52,7 @@
 		$email = $request->getParsedBodyParam('email');
 		$pass = md5($request->getParsedBodyParam('password'));
 		$user = new Usuario();
-		$users = $user::where('correo', $email)->where('contrasena', $pass)->where('status',1)->get();
+		$users = $user::where('usuario', $email)->where('contrasena', $pass)->where('status',1)->get();
 			if($users->count()>0){
 				$_SESSION['auth'] = true;
 				$_SESSION['id_usuario'] = $users[0]->id;
@@ -92,11 +94,16 @@
 	})->add(new Authentication());
 
 	$app->post("/insert/usuario",function($request, $response, $args){
+		$nombre_usuario = $request->getParsedBodyParam('usuario');
 		$correo = $request->getParsedBodyParam('correo');
 		$password = md5($request->getParsedBodyParam('password'));
 		$nombre = $request->getParsedBodyParam('nombre');
+		$paterno = $request->getParsedBodyParam('paterno');
+		$materno = $request->getParsedBodyParam('materno');
 		$rol = $request->getParsedBodyParam('rol');
 		$apikey = md5(date('Ymdhsi').$contrasena);
+
+		$personaje = $request->getParsedBodyParam('personaje');
 
 		$tv = $request->getParsedBodyParam('tv');
 		$firma = $request->getParsedBodyParam('firma');
@@ -104,6 +111,26 @@
 		$prensa = $request->getParsedBodyParam('prensa');
 		$oficina = $request->getParsedBodyParam('oficina');
 		$house = $request->getParsedBodyParam('house');
+
+		$genero = $request->getParsedBodyParam('genero');
+		$licencia = $request->getParsedBodyParam('licencia');
+		$fecha_nacimiento = $request->getParsedBodyParam('fecha_nacimiento');
+		$id_nacionalidad = $request->getParsedBodyParam('id_nacionalidad');
+		$celular = $request->getParsedBodyParam('celular');
+		$rfc = $request->getParsedBodyParam('rfc');
+		$direccion = $request->getParsedBodyParam('direccion');
+		$ine = $request->getParsedBodyParam('ine');
+		$pasaporte = $request->getParsedBodyParam('pasaporte');
+		$vigencia_pasaporte = $request->getParsedBodyParam('vigencia_pasaporte');
+		$visa = $request->getParsedBodyParam('visa');
+		$vigencia_visa = $request->getParsedBodyParam('vigencia_visa');
+		$id_banco = $request->getParsedBodyParam('id_banco');
+		$cuenta = $request->getParsedBodyParam('cuenta');
+		$clabe = $request->getParsedBodyParam('clabe');
+		$sucursal = $request->getParsedBodyParam('sucursal');
+		$talla_playera = $request->getParsedBodyParam('talla_playera');
+		$talla_pants = $request->getParsedBodyParam('talla_pants');
+
 
 
 		$uploadedFiles = $request->getUploadedFiles();
@@ -117,27 +144,96 @@
 			$im = imagecreatefromjpeg($avatar);
 			ob_start();
 			imagejpeg(cropAlign($im, 250, 250, 'center', 'middle'));
-  			imagedestroy( $im );
-  			$i = ob_get_clean();
-  			file_put_contents($directory ."/". $filename, $i);
-			
+			imagedestroy( $im );
+			$i = ob_get_clean();
+			file_put_contents($directory ."/". $filename, $i);
 	    }
 		$usuario = new Usuario();
+		$usuario->usuario = $nombre_usuario;
 		$usuario->correo = $correo;
 		$usuario->contrasena = $password;
 		$usuario->nombre = $nombre;
+		$usuario->paterno = $paterno;
+		$usuario->materno = $materno;
+		$usuario->personaje = $personaje;
 		$usuario->rol = $rol;
 		$usuario->apikey = $apikey;
 		$usuario->status = 1;
 		if(!empty($avatar)){
 			$usuario->avatar = $avatar;
 		}
-		$usuario->tv = $tv;
-		$usuario->firma = $firma;
-		$usuario->privado = $privado;
-		$usuario->prensa = $prensa;
-		$usuario->oficina = $oficina;
-		$usuario->house = $house;
+		if(!empty($tv)){
+			$usuario->tv = $tv;
+		}
+		if(!empty($firma)){
+			$usuario->firma = $firma;
+		}
+		if(!empty($privado)){
+			$usuario->privado = $privado;
+		}
+		if(!empty($prensa)){
+			$usuario->prensa = $prensa;
+		}
+		if(!empty($oficina)){
+			$usuario->oficina = $oficina;
+		}
+		if(!empty($house)){
+			$usuario->house = $house;
+		}
+		if(!empty($genero)){
+			$usuario->genero = $genero;
+		}
+		if(!empty($licencia)){
+			$usuario->licencia = $licencia;
+		}
+		if(!empty($fecha_nacimiento)){
+			$usuario->fecha_nacimiento = $fecha_nacimiento;
+		}
+		if(!empty($id_nacionalidad)){
+			$usuario->id_nacionalidad = $id_nacionalidad;
+		}
+		if(!empty($celular)){
+			$usuario->celular = $celular;
+		}
+		if(!empty($rfc)){
+			$usuario->rfc = $rfc;
+		}
+		if(!empty($direccion)){
+			$usuario->direccion = $direccion;
+		}
+		if(!empty($ine)){
+			$usuario->ine = $ine;
+		}
+		if(!empty($pasaporte)){
+			$usuario->pasaporte = $pasaporte;
+		}
+		if(!empty($vigencia_pasaporte)){
+			$usuario->vigencia_pasaporte = $vigencia_pasaporte;
+		}
+		if(!empty($visa)){
+			$usuario->visa = $visa;
+		}
+		if(!empty($vigencia_visa)){
+			$usuario->vigencia_visa = $vigencia_visa;
+		}
+		if(!empty($id_banco)){
+			$usuario->id_banco = $id_banco;
+		}
+		if(!empty($cuenta)){
+			$usuario->cuenta = $cuenta;
+		}
+		if(!empty($clabe)){
+			$usuario->clabe = $clabe;
+		}
+		if(!empty($sucursal)){
+			$usuario->sucursal = $sucursal;
+		}
+		if(!empty($talla_playera)){
+			$usuario->talla_playera = $talla_playera;
+		}
+		if(!empty($talla_pants)){
+			$usuario->talla_pants = $talla_pants;
+		}
 
 		try {
 			$usuario->save();
@@ -152,6 +248,8 @@
 		$correo = $request->getParsedBodyParam('correo');
 		$password = $request->getParsedBodyParam('password');
 		$nombre = $request->getParsedBodyParam('nombre');
+		$paterno = $request->getParsedBodyParam('paterno');
+		$materno = $request->getParsedBodyParam('materno');
 		$rol = $request->getParsedBodyParam('rol');
 		$contrasena = md5($password);
 		$apikey = md5(date('Ymdhsi').$contrasena);
@@ -163,14 +261,34 @@
 		$oficina = $request->getParsedBodyParam('oficina');
 		$house = $request->getParsedBodyParam('house');
 
+		$genero = $request->getParsedBodyParam('genero');
+		$licencia = $request->getParsedBodyParam('licencia');
+		$fecha_nacimiento = $request->getParsedBodyParam('fecha_nacimiento');
+		$id_nacionalidad = $request->getParsedBodyParam('id_nacionalidad');
+		$celular = $request->getParsedBodyParam('celular');
+		$rfc = $request->getParsedBodyParam('rfc');
+		$direccion = $request->getParsedBodyParam('direccion');
+		$ine = $request->getParsedBodyParam('ine');
+		$pasaporte = $request->getParsedBodyParam('pasaporte');
+		$vigencia_pasaporte = $request->getParsedBodyParam('vigencia_pasaporte');
+		$visa = $request->getParsedBodyParam('visa');
+		$vigencia_visa = $request->getParsedBodyParam('vigencia_visa');
+		$id_banco = $request->getParsedBodyParam('id_banco');
+		$cuenta = $request->getParsedBodyParam('cuenta');
+		$clabe = $request->getParsedBodyParam('clabe');
+		$sucursal = $request->getParsedBodyParam('sucursal');
+		$talla_playera = $request->getParsedBodyParam('talla_playera');
+		$talla_pants = $request->getParsedBodyParam('talla_pants');
+
+
 		$usuario = new Usuario();
 		$usuario = $usuario->find($id);
 
 
 		$uploadedFiles = $request->getUploadedFiles();
 		if(!empty($uploadedFiles)){
-		    $uploadedFile = $uploadedFiles['avatar'];
-		    if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
+			$uploadedFile = $uploadedFiles['avatar'];
+			if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
 				$directory = "assets/img";
 				$filename = date('Ymdhsi').$uploadedFile->getClientFilename();
 				$uploadedFile->moveTo($directory ."/". $filename);
@@ -179,15 +297,15 @@
 				$im = imagecreatefromjpeg($avatar);
 				ob_start();
 				imagejpeg(cropAlign($im, 250, 250, 'center', 'middle'));
-	  			imagedestroy( $im );
-	  			$i = ob_get_clean();
-	  			file_put_contents($directory ."/". $filename, $i);
-				
-		    }
-	    }
-
+				imagedestroy( $im );
+				$i = ob_get_clean();
+				file_put_contents($directory ."/". $filename, $i);
+			}
+		}
 		$usuario->correo = $correo;
 		$usuario->nombre = $nombre;
+		$usuario->paterno = $paterno;
+		$usuario->materno = $materno;
 		$usuario->rol = $rol;
 		$usuario->apikey = $apikey;
 		$usuario->status = 1;
@@ -209,6 +327,27 @@
 		$usuario->prensa = $prensa;
 		$usuario->oficina = $oficina;
 		$usuario->house = $house;
+
+		$usuario->genero = $genero;
+		$usuario->licencia = $licencia;
+		$usuario->fecha_nacimiento = $fecha_nacimiento;
+		$usuario->id_nacionalidad = $id_nacionalidad;
+		$usuario->celular = $celular;
+		$usuario->rfc = $rfc;
+		$usuario->direccion = $direccion;
+		$usuario->ine = $ine;
+		$usuario->pasaporte = $pasaporte;
+		$usuario->vigencia_pasaporte = $vigencia_pasaporte;
+		$usuario->visa = $visa;
+		$usuario->vigencia_visa = $vigencia_visa;
+		$usuario->id_banco = $id_banco;
+		$usuario->cuenta = $cuenta;
+		$usuario->clabe = $clabe;
+		$usuario->sucursal = $sucursal;
+		$usuario->talla_playera = $talla_playera;
+		$usuario->talla_pants = $talla_pants;
+
+
 		try {
 			$usuario->save();
 			return $response->withHeader('Location', BASE_URL."usuarios?m=".base64_encode('Usuario modificado correctamente') );
