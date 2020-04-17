@@ -1,5 +1,5 @@
 <?php include('header.php');
-    use Mainclass\Models\Indumentaria;
+    use Mainclass\Models\Evento;
 ?>
 <div class="app-main">
     <div class="app-sidebar sidebar-shadow">
@@ -48,7 +48,7 @@
             <?php } ?>
                 <div class="col-md-12">
                     <div class="main-card mb-3 card">
-                        <div class="card-header">Indumentarias:</div>
+                        <div class="card-header">Eventos:</div>
                         <!--<div class="p10">
                             <div id='calendar'></div>
                         </div>-->
@@ -56,30 +56,34 @@
   
                         <div class="table-responsive">
                             <?php 
-                            $indumentaria = new Indumentaria();
-                            $indumentaria = $indumentaria->where('status',1)->get();
+                            $evento = new Evento();
+                            $evento = $evento->where('status',1)->get();
                             ?>
                             <table class="align-middle mb-0 table table-borderless table-striped table-hover">
                                 <thead>
                                     <tr>
                                         <th class="text-center">#</th>
                                         <th>Nombre</th>
-                                        <th class="text-center">Editar</th>
-                                        <th class="text-center">Eliminar</th>
+                                        <th class="text-center">Cancelar</th>
+                                        <th class="text-center">Archivar</th>
+                                        <!--<th class="text-center">Eliminar</th>-->
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php 
-                                    foreach ($indumentaria as $r) {
+                                    foreach ($evento as $r) {
                                         ?>
                                          <tr>
                                         <td class="text-center text-muted"><?php echo $r->id ?></td>
                                         <td class="text-muted"><?php echo $r->nombre ?></td>
+                                        <!--<td class="text-center">
+                                            <a href="<?php echo BASE_URL ?>editar-evento/<?php echo $r->id ?>" class="btn btn-primary btn-sm">Editar</a>
+                                        </td>-->
                                         <td class="text-center">
-                                            <a href="<?php echo BASE_URL ?>editar-indumentaria/<?php echo $r->id ?>" class="btn btn-primary btn-sm">Editar</a>
+                                            <a onclick="return confirm('¿Está seguro de querer cancelar el evento (Se eliminarán todos los booking asociados a este evento)?');" href="<?php echo BASE_URL ?>cancel/evento/<?php echo $r->id ?>" class="btn btn-danger btn-sm">Cancelar Evento</a>
                                         </td>
                                         <td class="text-center">
-                                            <a onclick="return confirm('¿Está seguro de querer eliminar?');" href="<?php echo BASE_URL ?>delete/indumentaria/<?php echo $r->id ?>" class="btn btn-danger btn-sm">Eliminar</a>
+                                            <a onclick="return confirm('¿Está seguro de querer archivar (Se ocultará de esta lista, pero su información seguirá disponible)?');" href="<?php echo BASE_URL ?>archive/evento/<?php echo $r->id ?>" class="btn btn-danger btn-sm">Archivar Evento</a>
                                         </td>
                                     </tr>
                                         <?php
@@ -87,9 +91,6 @@
                                     ?>
                                     </tbody>
                                 </table>
-                            </div>
-                            <div class="d-block text-center card-footer">
-                                <a href="<?php echo BASE_URL ?>agregar-indumentaria" class="btn-wide btn btn-success">Agregar Indumentaria</a>
                             </div>
                         </div>
                     </div>

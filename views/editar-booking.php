@@ -4,6 +4,7 @@
     use Mainclass\Models\Tipo; 
     use Mainclass\Models\Indumentaria; 
     use Mainclass\Models\Booking; 
+    use Mainclass\Models\Vendedor; 
 ?>
 <div class="app-main">
     <div class="app-sidebar sidebar-shadow">
@@ -64,17 +65,32 @@
 //                        print_r($booking);
 
                     ?>
-                    <form method="post" action="<?php echo BASE_URL ?>insert/booking">
+                    <form method="post" action="<?php echo BASE_URL ?>update/booking">
                         <div class="form-group">
                             <label for="">Talento (Luchador)</label>
-                            <select name="id_usuario" class="form-control" required>
+                            <select name="id_usuario" class="form-control" required readonly>
                                 <option value="">-Seleccione-</option>
                                 <?php
                                     $usuario = new Usuario();
                                     $usuario = $usuario->where('rol',3)->get();
                                     foreach ($usuario as $u) {
                                         ?>
-                                <option value="<?php echo $u->id ?>" <?php if($u->id==$booking->id_usuario){ echo " selected "; } ?>><?php echo $u->nombre ?></option>
+                                <option value="<?php echo $u->id ?>" <?php if($u->id==$booking->id_usuario){ echo " selected "; } ?>><?php echo $u->personaje ?></option>
+                                        <?php
+                                    }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Vendedor</label>
+                            <select name="id_vendedor" class="form-control" requred>
+                                <option value="">-Seleccione-</option>
+                                <?php
+                                    $tipo = new Vendedor();
+                                    $tipo = $tipo->where('status',1)->orderBy('nombre','ASC')->get();
+                                    foreach ($tipo as $u) {
+                                        ?>
+                                <option value="<?php echo $u->id ?>"  <?php if($u->id==$booking->id_vendedor){ echo " selected "; } ?>><?php echo $u->nombre ?></option>
                                         <?php
                                     }
                                 ?>
@@ -96,8 +112,23 @@
                             </select>
                         </div>
                         <div class="form-group">
+                            <label>Indumentaria</label>
+                            <select name="id_indumentaria" class="form-control" requred>
+                                <option value="">-Seleccione-</option>
+                                <?php
+                                    $tipo = new Indumentaria();
+                                    $tipo = $tipo->where('status',1)->orderBy('nombre','ASC')->get();
+                                    foreach ($tipo as $u) {
+                                        ?>
+                                <option value="<?php echo $u->id ?>"  <?php if($u->id==$booking->id_indumentaria){ echo " selected "; } ?> ><?php echo $u->nombre ?></option>
+                                        <?php
+                                    }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label>Fecha de solicitud</label>
-                            <input type="text" name="fecha" class="datepicker form-control" value="<?php echo $fecha.$hora; ?>">
+                            <input type="text" name="fecha" class="datepicker form-control" value="<?php echo $fecha; ?>">
                         </div>
                         <div class="form-group">
                             <label>Hora de solicitud</label>
@@ -105,7 +136,7 @@
                                 <option value="">- Seleccione -</option>
 
                                 <?php 
-                                    for ($i=0; $i < 24 ; $i++) { 
+                                    for ($i=7; $i < 20 ; $i++) { 
                                         $ipadded = sprintf("%02d", $i);
                                         $selected0 = '';
                                         $selected1 = '';
@@ -116,31 +147,42 @@
                                             $selected1 = " selected ";
                                         }
                                         echo "<option value='$ipadded:00' $selected0>$ipadded:00</option>\n";
-                                        echo "<option value='$ipadded:00' $selected1>$ipadded:30</option>\n";
+                                        //echo "<option value='$ipadded:00' $selected1>$ipadded:30</option>\n";
 
                                     }
                                 ?>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Indumentaria</label>
-                            <select name="id_indumentaria" class="form-control" requred>
-                                <option value="">-Seleccione-</option>
-                                <?php
-                                    $tipo = new Indumentaria();
-                                    $tipo = $tipo->where('status',1)->orderBy('nombre','ASC')->get();
-                                    foreach ($tipo as $u) {
-                                        ?>
-                                <option value="<?php echo $u->id ?>"  <?php if($u->id==$booking->id_indumentaria){ echo " selected "; } ?>><?php echo $u->nombre ?></option>
-                                        <?php
-                                    }
-                                ?>
-                            </select>
+                            <input type="checkbox" value="1" name="recibo_honorarios" <?php if($booking->recibo_honorarios==true){echo " checked "; } ?>>
+                            <label>Recibo de honorarios:</label>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="">Dirección</label>
+                            <div class="pac-card" id="pac-card">
+                                <div id="pac-container">
+                                    <input id="pac-input" type="text" placeholder="Escriba una dirección" class="form-control" value="<?php echo $booking->direccion ?>">
+                                </div>
+                            </div>
+                            <div id="map"></div>
+                            <div id="infowindow-content">
+                                <img src="" width="16" height="16" id="place-icon">
+                                <span id="place-name"  class="title"></span><br>
+                                <span id="place-address"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Ajuste (Bono / Descuento)</label>
+                            <input type="text" name="ajuste" class="form-control" value="<?php echo $booking->ajuste ; ?>">
                         </div>
                         <div class="form-group">
                             <label>Comentarios:</label>
                             <textarea name="comentarios" class="form-control"><?php echo $booking->comentarios ?></textarea>
                         </div>
+                        <input type="hidden" id="input_direccion" name="direccion" value="<?php echo $booking->direccion ?>">
+                        <input type="hidden" id="input_latlong" name="latlong" value="(<?php echo $booking->latlong ?>)">
+                        <input type="hidden" name="id" id="id" value = "<?php echo $args['id'] ?>">
                         <button class="btn btn-success">Editar booking</button>
                     </form>
                 </div>
@@ -148,4 +190,76 @@
         </div>
     </div>
 </div>
+<script>
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 19.4109627, lng: -99.1865804},
+          zoom: 13
+        });
+        var card = document.getElementById('pac-card');
+        var input = document.getElementById('pac-input');
+        var types = document.getElementById('type-selector');
+        var strictBounds = document.getElementById('strict-bounds-selector');
+        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.bindTo('bounds', map);
+
+        autocomplete.setFields(
+            ['address_components', 'geometry']);
+
+        var infowindow = new google.maps.InfoWindow();
+        var infowindowContent = document.getElementById('infowindow-content');
+        infowindow.setContent(infowindowContent);
+        var marker = new google.maps.Marker({
+          map: map,
+          anchorPoint: new google.maps.Point(0, -29)
+        });
+        autocomplete.addListener('place_changed', function() {
+          infowindow.close();
+          marker.setVisible(false);
+          var place = autocomplete.getPlace();
+          if (!place.geometry) {
+            window.alert("No encontramos la dirección: '" + place.name + "'");
+            return;
+          }
+          if (place.geometry.viewport) {
+            map.fitBounds(place.geometry.viewport);
+          } else {
+            map.setCenter(place.geometry.location);
+            map.setZoom(17);  // Why 17? Because it looks good.
+          }
+          marker.setPosition(place.geometry.location);
+          marker.setVisible(true);
+          var address = '';
+          if (place.address_components) {
+            address = [
+              (place.address_components[0] && place.address_components[0].short_name || ''),
+              (place.address_components[1] && place.address_components[1].short_name || ''),
+              (place.address_components[2] && place.address_components[2].short_name || '')
+            ].join(' ');
+          }
+          infowindowContent.children['place-icon'].src = place.icon;
+          infowindowContent.children['place-name'].textContent = place.name;
+          infowindowContent.children['place-address'].textContent = address;
+          infowindow.open(map, marker);
+          var latlong = place.geometry.location;
+          if(place.name !=undefined){
+            var address = place.name+' '+place.address_components[1].short_name+' '+place.address_components[0].short_name+' '+place.address_components[2].short_name+' '+place.address_components[6].short_name+' '+place.address_components[3].short_name+' '+place.address_components[4].short_name+' '+place.address_components[5].short_name;
+          }else{
+            var address = place.address_components[1].short_name+' '+place.address_components[0].short_name+' '+place.address_components[2].short_name+' '+place.address_components[6].short_name+' '+place.address_components[3].short_name+' '+place.address_components[4].short_name+' '+place.address_components[5].short_name;
+          }
+          $('#input_direccion').val(address);
+          $('#input_latlong').val(latlong);
+        });
+      }
+    </script>
+    <script src="<?php echo base64_decode("aHR0cHM6Ly9tYXBzLmdvb2dsZWFwaXMuY29tL21hcHMvYXBpL2pzP2tleT1BSXphU3lDU2RNWGtMMTVsNkxLRk1RcWRzTUQ3LWRBaFVIWGRGUjgmbGlicmFyaWVzPXBsYWNlcyZjYWxsYmFjaz1pbml0TWFw") ?>"
+        async defer></script>
+        
 <?php include("footer.php") ?>
+
+<script>
+            $(document).ready(function(){
+
+            })
+        </script>

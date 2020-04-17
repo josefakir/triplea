@@ -42,6 +42,20 @@
                 }
             ?>
             <?php 
+                if($rol->permiso_vendedores==true){
+                    ?>
+            <li><a href="<?php echo BASE_URL ?>vendedores"  class="<?php if (strpos($actual_link, 'vendedores') || strpos($actual_link, 'agregar-vendedor') || strpos($actual_link, 'editar-vendedor') ){echo "mm-active";} ?>"><i class="metismenu-icon pe-7s-piggy"></i>Vendedores</a></li>
+                    <?php
+                }
+            ?>
+            <?php 
+                if($rol->permiso_eventos==true){
+                    ?>
+            <li><a href="<?php echo BASE_URL ?>eventos"  class="<?php if (strpos($actual_link, 'eventos') || strpos($actual_link, 'editar-evento') ){echo "mm-active";} ?>"><i class="metismenu-icon pe-7s-stopwatch"></i>Eventos</a></li>
+                    <?php
+                }
+            ?>
+            <?php 
                 if($rol->permiso_bookings_editar==true or $rol->permiso_bookings_aprobar==true){
                     ?>
             <li><a href="<?php echo BASE_URL ?>bookings"  class="<?php if (strpos($actual_link, 'bookings') || strpos($actual_link, 'agregar-booking') || strpos($actual_link, 'editar-booking') ){echo "mm-active";} ?>"><i class="metismenu-icon pe-7s-gleam"></i>Bookings</a></li>

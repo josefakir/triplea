@@ -3,6 +3,7 @@
     use Mainclass\Models\Usuario; 
     use Mainclass\Models\Tipo; 
     use Mainclass\Models\Indumentaria; 
+    use Mainclass\Models\Vendedor; 
 ?>
 <div class="app-main">
     <div class="app-sidebar sidebar-shadow">
@@ -56,15 +57,22 @@
                             <label>Fecha de solicitud</label>
                             <input type="text" name="fecha" class="datepicker form-control buscar_disponibles" autocomplete="off" id="fecha_buscar">
                         </div>
+                        <div class="form-group" style="position:relative">
+                            <label>Evento</label>
+                            <input type="text" name="evt" class="form-control basicAutoComplete" autocomplete="off" id="autocomplete">
+                            <input type="hidden" name="id_evento" id="id_evento">
+                            <div class="autocomplete">
+                                <ul></ul>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label>Hora de solicitud</label>
                             <select name="hora" class="form-control buscar_disponibles" id="hora_buscar">
                                 <?php
-                                for ($i=0; $i < 24 ; $i++) { 
+                                for ($i=7; $i < 21 ; $i++) { 
                                         $ipadded = sprintf("%02d", $i);
                                         echo "<option value='$ipadded:00' $selected0>$ipadded:00</option>\n";
-                                        echo "<option value='$ipadded:00' $selected1>$ipadded:30</option>\n";
-
+                                        //echo "<option value='$ipadded:00' $selected1>$ipadded:30</option>\n";
                                     }
                                 ?>
                             </select>
@@ -76,12 +84,31 @@
                                 <option value="">-Seleccione-</option>
                             </select>
                         </div>
+                        
                         <div class="form-group col">
                             <label for="">No disponibles</label>
                             <ul id="lista_no_disponibles"></ul>
                         </div>
                         </div>
-                        
+                        <div class="form-group">
+                            <label for="">Vendedor:</label>
+                            <select name="id_vendedor" class="form-control" required id="id_vendedor"  >
+                                <option value="">-Seleccione-</option>
+                                <?php
+                                    $tipo = new Vendedor();
+                                    $tipo = $tipo->where('status',1)->orderBy('nombre','ASC')->get();
+                                    foreach ($tipo as $u) {
+                                        ?>
+                                <option value="<?php echo $u->id ?>"><?php echo $u->nombre ?></option>
+                                        <?php
+                                    }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="checkbox" value="1" name="recibo_honorarios">
+                            <label>Recibo de honorarios:</label>
+                        </div>
                         <div class="form-group">
                             <label for="">Tipo de evento</label>
                             <select name="id_tipo" class="form-control" required>

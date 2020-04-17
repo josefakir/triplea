@@ -195,18 +195,7 @@
 							</div>
 							<div class="form-group">
 								<label for="">Banco</label>
-								<select name="id_banco" id="" class="form-control">
-									<option value="">-Seleccione-</option>
-									<?php 
-										$banco = new Banco();
-										$banco = $banco->all();
-										foreach($banco as $p){
-											?>
-									<option value="<?php echo $p->id ?>" <?php if($p->id==146){ echo " selected "; } ?> ><?php echo $p->nombre ?></option>
-											<?php
-										}
-									?>
-								</select>
+								<input type="text" class="form-control" name="banco" >
 							</div>
 							<div class="form-group">
 								<label for=""># Cuenta</label>

@@ -78,12 +78,12 @@
                                     <tbody>
                                         <?php 
                                             $anio = $_GET['anio'];
-                                            $luchadores = Capsule::select("select usuarios.id , usuarios.nombre , count(bookings.id) as 'conteo' from usuarios left join bookings on usuarios.id = bookings.id_usuario where (fecha >= '$anio-01-01' and fecha <= '$anio-12-31') group by usuarios.id order by conteo DESC;");
+                                            $luchadores = Capsule::select("select usuarios.id , usuarios.personaje , count(bookings.id) as 'conteo' from usuarios left join bookings on usuarios.id = bookings.id_usuario where (fecha >= '$anio-01-01' and fecha <= '$anio-12-31') group by usuarios.id order by conteo DESC;");
                                             foreach($luchadores as $l){
                                                 ?>
                                                 <tr>
                                                     <td><?php echo $l->id ?></td>
-                                                    <td><?php echo $l->nombre ?></td>
+                                                    <td><?php echo $l->personaje ?></td>
                                                     <td><?php echo $l->conteo ?></td>
                                                 </tr>
                                                 <?php
@@ -92,6 +92,40 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <div id="chart_div"></div>
+                            <script>
+                            google.charts.load('current', {packages: ['corechart', 'bar']});
+                            google.charts.setOnLoadCallback(drawMultSeries);
+
+                            function drawMultSeries() {
+                                var options = {
+                                    title: 'Reporte Luchadores',
+                                    chartArea: {width: '50%'},
+                                    hAxis: {
+                                        title: 'Talento',
+                                        minValue: 0
+                                    },
+                                    vAxis: {
+                                        title: 'Cantidad'
+                                    }
+                                };
+                                var data = google.visualization.arrayToDataTable([
+                                    ['Talento', 'Cantidad'],
+                                    <?php 
+                                        foreach($luchadores as $l){
+                                            ?>
+                                    ['<?php echo $l->personaje ?>', <?php echo $l->conteo ?>],            // RGB value
+                                            <?php
+                                        }
+                                    ?>
+                                ]);
+
+                                var chart = new google.visualization.ColumnChart(
+                                document.getElementById('chart_div'));
+
+                                chart.draw(data,options);
+                                }
+                            </script>
                             <!--<div class="d-block text-center card-footer">
                                 <a href="<?php echo BASE_URL ?>agregar-booking" class="btn-wide btn btn-success">Descargar a Excel</a>
                             </div>-->

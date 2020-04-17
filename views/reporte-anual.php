@@ -39,9 +39,6 @@
     </div>
     <div class="app-main__outer">
         <div class="app-main__inner">
-                      
-
-            
             <div class="row">
                 <?php if(!empty($_GET['m'])){ ?>
                 <div class="col-md-12">
@@ -49,8 +46,12 @@
                 </div>
             <?php } ?>
                 <div class="col-md-12">
+                <p>Leyenda: TV: Televisión, FA: Firma de autógrafos, EP: Evento privado, PR: Prensa, RO: Reunión en la oficina, HS: House show</p>
                     <div class="main-card mb-3 card">
-                        <div class="card-header">Reportes: 
+                    
+                        <div class="card-header">
+                            
+                            Reportes: 
                             <form action="<?php echo BASE_URL ?>reporte-anual" method="GET">
                             <select name="anio" id="" style="margin-left:10px" onchange="this.form.submit()">
                             <option value="2020" <?php if($_GET['anio']==2020){ echo ' selected '; } ?>>2020</option>

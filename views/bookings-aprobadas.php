@@ -58,7 +58,7 @@
                         <div class="table-responsive">
                             <?php 
                             $booking = new Booking();
-                            $booking = $booking->where('status',0)->get();
+                            $booking = $booking->where('status',1)->get();
                             ?>
                             <table class="align-middle mb-0 table table-borderless table-striped table-hover">
                                 <thead>

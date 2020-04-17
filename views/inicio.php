@@ -65,7 +65,7 @@
                                     echo $count;
                                 ?>
                             </h2>
-                           <p class="tac"><a class="btn btn-success">Ver solicitudes</a></p>
+                           <p class="tac"><a href="<?php echo BASE_URL ?>bookings-aprobadas" class="btn btn-success">Ver solicitudes</a></p>
                         </div>
                     </div>
                 </div>
@@ -80,7 +80,7 @@
                                             echo $count;
                                         ?>
                                 </h2>
-                                <p class="tac"><a class="btn btn-danger">Ver solicitudes</a></p>
+                                <p class="tac"><a href="<?php echo BASE_URL ?>bookings-rechazadas" class="btn btn-danger">Ver solicitudes</a></p>
                             </div>
                         </div>
                     </div>

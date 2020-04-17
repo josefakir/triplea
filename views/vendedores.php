@@ -1,6 +1,7 @@
-<?php include('header.php');
-    use Mainclass\Models\Indumentaria;
-?>
+<?php 
+    include('header.php');
+    use Mainclass\Models\Vendedor;
+ ?>
 <div class="app-main">
     <div class="app-sidebar sidebar-shadow">
         <div class="app-header__logo">
@@ -48,16 +49,13 @@
             <?php } ?>
                 <div class="col-md-12">
                     <div class="main-card mb-3 card">
-                        <div class="card-header">Indumentarias:</div>
-                        <!--<div class="p10">
-                            <div id='calendar'></div>
-                        </div>-->
-
-  
+                        <div class="card-header">Usuarios
+                            
+                        </div>
                         <div class="table-responsive">
                             <?php 
-                            $indumentaria = new Indumentaria();
-                            $indumentaria = $indumentaria->where('status',1)->get();
+                            $vendedor = new Vendedor();
+                            $vendedor = $vendedor->where('status',1)->get();
                             ?>
                             <table class="align-middle mb-0 table table-borderless table-striped table-hover">
                                 <thead>
@@ -70,26 +68,47 @@
                                 </thead>
                                 <tbody>
                                     <?php 
-                                    foreach ($indumentaria as $r) {
+                                    foreach ($vendedor as $u) {
                                         ?>
                                          <tr>
-                                        <td class="text-center text-muted"><?php echo $r->id ?></td>
-                                        <td class="text-muted"><?php echo $r->nombre ?></td>
-                                        <td class="text-center">
-                                            <a href="<?php echo BASE_URL ?>editar-indumentaria/<?php echo $r->id ?>" class="btn btn-primary btn-sm">Editar</a>
+                                        <td class="text-center text-muted"><?php echo $u->id ?></td>
+                                        <td>
+                                            <div class="widget-content p-0">
+                                                <div class="widget-content-wrapper">
+                                                    <div class="widget-content-left mr-3">
+                                                        <div class="widget-content-left">
+                                                            <?php 
+                                                                $avatar = $u->avatar;
+                                                                if(empty($avatar)){
+                                                                    $avatar = BASE_URL."assets/img/default.jpg";
+                                                                }
+                                                            ?>
+                                                            <img width="40" class="rounded-circle" src="<?php echo $avatar ?>" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="widget-content-left flex2">
+                                                        <div class="widget-heading"><?php echo $u->nombre ?></div>
+                                                        <div class="widget-subheading opacity-7"><?php echo traducirRol($u->rol) ?></div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </td>
                                         <td class="text-center">
-                                            <a onclick="return confirm('¿Está seguro de querer eliminar?');" href="<?php echo BASE_URL ?>delete/indumentaria/<?php echo $r->id ?>" class="btn btn-danger btn-sm">Eliminar</a>
+                                            <a href="<?php echo BASE_URL ?>editar-vendedor/<?php echo $u->id ?>" class="btn btn-primary btn-sm">Editar</a>
+                                        </td>
+                                        <td class="text-center">
+                                            <a onclick="return confirm('¿Está seguro de querer eliminar?');" href="<?php echo BASE_URL ?>delete/vendedor/<?php echo $u->id ?>" class="btn btn-danger btn-sm">Eliminar</a>
                                         </td>
                                     </tr>
                                         <?php
                                     }
                                     ?>
+                                  
                                     </tbody>
                                 </table>
                             </div>
                             <div class="d-block text-center card-footer">
-                                <a href="<?php echo BASE_URL ?>agregar-indumentaria" class="btn-wide btn btn-success">Agregar Indumentaria</a>
+                                <a href="<?php echo BASE_URL ?>agregar-vendedor" class="btn-wide btn btn-success">Agregar Vendedor</a>
                             </div>
                         </div>
                     </div>

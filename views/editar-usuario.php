@@ -201,18 +201,7 @@
 							</div>
 							<div class="form-group">
 								<label for="">Banco</label>
-								<select name="id_banco" id="" class="form-control">
-									<option value="">-Seleccione-</option>
-									<?php 
-										$banco = new Banco();
-										$banco = $banco->all();
-										foreach($banco as $p){
-											?>
-									<option value="<?php echo $p->id ?>" <?php if($p->id==$usuario->id_banco){ echo " selected "; } ?> ><?php echo $p->nombre ?></option>
-											<?php
-										}
-									?>
-								</select>
+								<input type="text" class="form-control" name="banco" value="<?php echo $usuario->banco ?>">
 							</div>
 							<div class="form-group">
 								<label for=""># Cuenta</label>
@@ -248,7 +237,12 @@
 									<option value="xxg" <?php if($usuario->talla_pants=='xxg'){ echo " selected "; } ?>>XX Grande</option>
 								</select>
 							</div>
+							<div class="form-group">
+								<input class="notrequired" type="checkbox" value="1" name="lesion_permiso_eventualidad" <?php if($usuario->lesion_permiso_eventualidad==true){ echo " checked "; } ?> required="false">
+								<label>Desactivar por Lesion / Permiso / Eventualidad:</label>
+							</div>
 						</div>
+
                         <input type="hidden" name="id" value="<?php echo $args['id'] ?>">
                         <button class="btn btn-warning">Editar Usuario</button>
                     </form>
@@ -262,5 +256,6 @@
 <script>
     $(document).ready(function(){
         $('#rol_usuario').trigger('change');
+		$('.notrequired').removeAttr( "required" )
     })
 </script>

@@ -28,6 +28,9 @@
 	use Mainclass\Models\Indumentaria;
 	use Mainclass\Models\Pais;
 	use Mainclass\Models\Banco;
+	use Mainclass\Models\Vendedor;
+	use Mainclass\Models\Logprecio;
+	use Mainclass\Models\Evento;
 
 	use Mainclass\Middleware\Logging as Logging;
 	use Mainclass\Middleware\Redirectlogin as Redirectlogin;
@@ -49,10 +52,11 @@
 	});
 
 	$app->post("/login",function($request, $response, $args){
-		$email = $request->getParsedBodyParam('email');
+		$usuario = $request->getParsedBodyParam('usuario');
 		$pass = md5($request->getParsedBodyParam('password'));
 		$user = new Usuario();
-		$users = $user::where('usuario', $email)->where('contrasena', $pass)->where('status',1)->get();
+		$users = $user::where('usuario', $usuario)->where('contrasena', $pass)->where('status',1)->get();
+
 			if($users->count()>0){
 				$_SESSION['auth'] = true;
 				$_SESSION['id_usuario'] = $users[0]->id;
@@ -124,7 +128,7 @@
 		$vigencia_pasaporte = $request->getParsedBodyParam('vigencia_pasaporte');
 		$visa = $request->getParsedBodyParam('visa');
 		$vigencia_visa = $request->getParsedBodyParam('vigencia_visa');
-		$id_banco = $request->getParsedBodyParam('id_banco');
+		$banco = $request->getParsedBodyParam('banco');
 		$cuenta = $request->getParsedBodyParam('cuenta');
 		$clabe = $request->getParsedBodyParam('clabe');
 		$sucursal = $request->getParsedBodyParam('sucursal');
@@ -273,13 +277,17 @@
 		$vigencia_pasaporte = $request->getParsedBodyParam('vigencia_pasaporte');
 		$visa = $request->getParsedBodyParam('visa');
 		$vigencia_visa = $request->getParsedBodyParam('vigencia_visa');
-		$id_banco = $request->getParsedBodyParam('id_banco');
+		$banco = $request->getParsedBodyParam('banco');
 		$cuenta = $request->getParsedBodyParam('cuenta');
 		$clabe = $request->getParsedBodyParam('clabe');
 		$sucursal = $request->getParsedBodyParam('sucursal');
 		$talla_playera = $request->getParsedBodyParam('talla_playera');
 		$talla_pants = $request->getParsedBodyParam('talla_pants');
 
+		$lesion_permiso_eventualidad = $request->getParsedBodyParam('lesion_permiso_eventualidad');
+		if(empty($lesion_permiso_eventualidad)){
+			$lesion_permiso_eventualidad = false;
+		}
 
 		$usuario = new Usuario();
 		$usuario = $usuario->find($id);
@@ -346,11 +354,23 @@
 		$usuario->sucursal = $sucursal;
 		$usuario->talla_playera = $talla_playera;
 		$usuario->talla_pants = $talla_pants;
+		$usuario->lesion_permiso_eventualidad = $lesion_permiso_eventualidad;
 
 
 		try {
 			$usuario->save();
+			$logprecio = new Logprecio();
+			$logprecio->id_usuario = $_SESSION['id_usuario'];
+			$logprecio->id_luchador = $id;
+			$logprecio->tv = $tv;
+			$logprecio->firma = $firma;
+			$logprecio->privado = $privado;
+			$logprecio->prensa = $prensa;
+			$logprecio->oficina = $oficina;
+			$logprecio->house = $house;
+			$logprecio->save();
 			return $response->withHeader('Location', BASE_URL."usuarios?m=".base64_encode('Usuario modificado correctamente') );
+			
 		} catch (Exception $e) {
 			print_r($e);
 		}
@@ -547,6 +567,12 @@
 	$app->get("/bookings",function($request, $response, $args){
 		include("views/bookings.php");
 	})->add(new Authentication());
+	$app->get("/bookings-aprobadas",function($request, $response, $args){
+		include("views/bookings-aprobadas.php");
+	})->add(new Authentication());
+	$app->get("/bookings-rechazadas",function($request, $response, $args){
+		include("views/bookings-rechazadas.php");
+	})->add(new Authentication());
 
 	$app->get("/agregar-booking",function($request, $response, $args){
 		include("views/agregar-booking.php");
@@ -558,15 +584,33 @@
 			0 = Solicitado
 			1 = Aprobado
 			2 = Rechazado
+			3 = Cancelado
 		*/
 
 		try {
+
+			$id_evento = $request->getParsedBodyParam('id_evento');
+
+			if($id_evento==""){
+				$evento = new Evento();
+				$evento->nombre = $request->getParsedBodyParam('evt');
+				$evento->fecha = $request->getParsedBodyParam('fecha');
+				$evento->save();
+				$id_evento = $evento->id;
+			}
+
+
 			$id_usuario = $request->getParsedBodyParam('id_usuario');
 			$fecha = $request->getParsedBodyParam('fecha')." ".$request->getParsedBodyParam('hora').":00";
 
 			$id_indumentaria = $request->getParsedBodyParam('id_indumentaria');
 			$comentarios = $request->getParsedBodyParam('comentarios');
 			$id_solicitante = $_SESSION['id_usuario'];
+			$id_vendedor = $request->getParsedBodyParam('id_vendedor');
+			$recibo_honorarios = $request->getParsedBodyParam('recibo_honorarios');
+			if(empty($recibo_honorarios)){
+				$recibo_honorarios = 0;
+			}
 			$direccion = $request->getParsedBodyParam('direccion');
 			$latlong = $request->getParsedBodyParam('latlong');
 			$id_tipo = $request->getParsedBodyParam('id_tipo');
@@ -624,15 +668,18 @@
 				$precio = $usuario->{$tipo_evento};	
 				
 				$html .= "
-					<li>".traducirUsuario($i)."</li>
+					<li>".traducirPersonaje($i)."</li>
 				";
 				$booking = new Booking();
 				$booking->id_usuario = $i;
+				$booking->id_evento = $id_evento;
 				$booking->id_tipo = $id_tipo;
 				$booking->fecha = $fecha;
 				$booking->id_indumentaria = $id_indumentaria;
 				$booking->comentarios = $comentarios;
 				$booking->id_solicitante = $id_solicitante;
+				$booking->id_vendedor = $id_vendedor;
+				$booking->recibo_honorarios = $recibo_honorarios;
 				$booking->status = $status;
 				$booking->precio = $precio;
 				$booking->direccion = $direccion;
@@ -654,7 +701,43 @@
 			return $response->withHeader('Location', BASE_URL."bookings?m=".base64_encode('Hubo un error') );
 		}
 	})->add(new Authentication());
-	
+
+	$app->post("/update/booking",function($request, $response, $args){
+		try {
+			$id_booking = $request->getParsedBodyParam('id');
+			echo $id_booking;
+			$id_vendedor = $request->getParsedBodyParam('id_vendedor');
+			$id_tipo = $request->getParsedBodyParam('id_tipo');
+			$id_indumentaria = $request->getParsedBodyParam('id_indumentaria');
+			$fecha = $request->getParsedBodyParam('fecha')." ".$request->getParsedBodyParam('hora');
+			$recibo_honorarios = $request->getParsedBodyParam('recibo_honorarios');
+			if(empty($recibo_honorarios)){
+				$recibo_honorarios = 0;
+			}
+			$direccion = $request->getParsedBodyParam('direccion');
+			$latlong = $request->getParsedBodyParam('latlong');
+			$ajuste = $request->getParsedBodyParam('ajuste');
+			$comentarios = $request->getParsedBodyParam('comentarios');
+			$booking = new Booking();
+			$booking = $booking->find($id_booking);
+			$booking->id_vendedor = $id_vendedor;
+			$booking->id_tipo = $id_tipo;
+			$booking->id_indumentaria = $id_indumentaria;
+			$booking->fecha = $fecha;
+			$booking->recibo_honorarios = $recibo_honorarios;
+			$booking->latlong = $latlong;
+			$booking->ajuste = $ajuste;
+			$booking->comentarios = $comentarios;
+
+			$booking->save();
+			return $response->withHeader('Location', BASE_URL."bookings?m=".base64_encode('Solicituda modificada correctamente'));
+
+		} catch (Exception $e) {
+			print_r($e);
+		}
+		
+
+	})->add(new Authentication());
 	$app->get("/operacion-solicitud/{id}",function($request, $response, $args){
 		include("views/operacion-solicitud.php");
 	})->add(new Authentication());
@@ -873,47 +956,141 @@
 	});
 
 	$app->get("/api/v1/disponibles/{fecha}/{hora}",function($request, $response, $args){
-		$fecha = $args['fecha']." ".$args['hora'];
-		$date1 = new \DateTime($fecha);
-		$date1->modify('-1 hours');
-		$formatted_date1 = $date1->format('Y-m-d H:i:s');
-
-		$date2 = new \DateTime($fecha);
-		$date2->modify('+2 hours');
-		$formatted_date2 = $date2->format('Y-m-d H:i:s');
-
-		$booking = new Booking();
-		$booking = $booking->join('usuarios', 'usuarios.id', '=','bookings.id_usuario')->select('usuarios.id')->where('fecha','>=',$formatted_date1 )->where('fecha','<=',$formatted_date2 )->where('bookings.status',1 )->get();
-		$notin = array();
-		foreach ($booking as $b) {
-			array_push($notin,$b->id);
-		}
-		$available = new Usuario();
-		$available = $available->whereNotIn('id',$notin)->where('rol',3)->where('status',1)->orderBy('nombre', 'ASC')->get();
-		$disponibles = array();
 		$return = array();
+		$fecha = $args['fecha'];
+		$no_disponibles = array();
+		$disponibles = array();
+		$notin = array();
+		$unavailable = new Booking();
+		//$unavailable = $unavailable->join('usuarios', 'usuarios.id', '=','bookings.id_usuario')->select('usuarios.id','usuarios.personaje','bookings.fecha')->where('fecha','>=',$args['fecha']." 00:00:00")->where('fecha','<=',$args['fecha']." 23:59:59")->get();
+		$unavailable = $unavailable->join('usuarios', 'usuarios.id', '=','bookings.id_usuario')->select('usuarios.id','usuarios.personaje','bookings.fecha')->where('fecha','>=',$args['fecha']." 00:00:00")->where('fecha','<=',$args['fecha']." 23:59:59")->where('usuarios.rol',3)->get();
+		foreach ($unavailable as $a) {
+			$luchador = array(
+				'id' => $a->id,
+				'nombre' => $a->personaje
+			);
+			array_push($no_disponibles,$luchador);
+			array_push($notin,$a->id);
+		}
+		$lesionados = new Usuario();
+		$lesionados = $lesionados->where('lesion_permiso_eventualidad',1)->where('usuarios.rol',3)->get();
+		foreach ($lesionados as $a) {
+			$luchador = array(
+				'id' => $a->id,
+				'nombre' => $a->personaje
+			);
+			array_push($no_disponibles,$luchador);
+			array_push($notin,$a->id);
+		}
+
+
+		$available = new Usuario();
+		$available = $available->select("id","personaje")->where('usuarios.rol',3)->whereNotIn('id', $notin)->get();
 		foreach ($available as $a) {
 			$luchador = array(
 				'id' => $a->id,
-				'nombre' => $a->nombre
+				'nombre' => $a->personaje
 			);
 			array_push($disponibles,$luchador);
 		}
 		array_push($return,array('disponibles' => $disponibles));
+		array_push($return,array('nodisponibles' => $no_disponibles));
 
 
-		$unavailable = new Usuario();
-		$unavailable = $unavailable->whereIn('id',$notin)->where('rol',3)->where('status',1)->orderBy('nombre', 'ASC')->get();
-		$nodisponibles = array();
-		foreach ($unavailable as $a) {
-			$luchador = array(
-				'id' => $a->id,
-				'nombre' => $a->nombre
-			);
-			array_push($nodisponibles,$luchador);
-		}
-		array_push($return,array('nodisponibles' => $nodisponibles));
 		return $response->withStatus(200)->withJson($return);
 	});
+	$app->get("/api/v1/evt/{fecha}/{query}",function($request, $response, $args){	
+		$eventos = new Evento();
+		$eventos = $eventos->where('fecha',$args['fecha'])->where('nombre', 'like', '%' . $args['query'] . '%')->get();
+		return $response->withStatus(200)->withJson($eventos);
+	});
+	$app->get("/vendedores",function($request, $response, $args){
+		include("views/vendedores.php");
+	})->add(new Authentication());
+	$app->get("/agregar-vendedor",function($request, $response, $args){
+		include("views/agregar-vendedor.php");
+	})->add(new Authentication());
+	$app->get("/editar-vendedor/{id}",function($request, $response, $args){
+		include("views/editar-vendedor.php");
+	})->add(new Authentication());
+	$app->post("/insert/vendedor",function($request, $response, $args){
+		try {
+			$nombre = $request->getParsedBodyParam('nombre');
+
+			$vendedor = new Vendedor();
+			$vendedor->nombre = $nombre;
+			$vendedor->status = true;
+			$vendedor->save();
+			return $response->withHeader('Location', BASE_URL."vendedores?m=".base64_encode('Vendedor agregado correctamente') );
+		} catch (Exception $e) {
+			print_r($e);
+		}
+	})->add(new Authentication());
+
+	$app->post("/update/vendedor",function($request, $response, $args){
+		try {
+			$nombre = $request->getParsedBodyParam('nombre');
+			$id = $request->getParsedBodyParam('id');
+
+			$vendedor = new Vendedor();
+			$vendedor = $vendedor->find($id);
+			$vendedor->nombre = $nombre;
+			$vendedor->save();
+			return $response->withHeader('Location', BASE_URL."vendedores?m=".base64_encode('Vendedor modificado correctamente') );
+		} catch (Exception $e) {
+			print_r($e);
+		}
+	})->add(new Authentication());
+
+	$app->get("/delete/vendedor/{id}",function($request, $response, $args){
+		$vendedor = new Vendedor();
+		$vendedor = $vendedor->find($args['id']);
+		try {
+			$vendedor->delete();
+			return $response->withHeader('Location', BASE_URL."vendedores?m=".base64_encode('Vendedor eliminado correctamente') );
+		} catch (Exception $e) {
+			print_r($e);
+		}
+	})->add(new Authentication());
+
+
+	$app->get("/cambios-de-tarifa",function($request, $response, $args){
+		include("views/cambios-de-tarifa.php");
+	})->add(new Authentication());
+
+
+	$app->get("/eventos",function($request, $response, $args){
+		include("views/eventos.php");
+	})->add(new Authentication());
+
+	$app->get("/cancel/evento/{id}",function($request, $response, $args){
+		try {
+			$evento = new Evento();
+			$evento = $evento->find($args['id']);
+			$evento->status = 0;
+			$evento->save();
+
+			$booking = new Booking();
+			$booking = $booking->where("id_evento",$args['id'])->update(['status' => 3]);
+			return $response->withHeader('Location', BASE_URL."eventos?m=".base64_encode('Evento cancelado correctamente') );
+
+		} catch (Exception $e) {
+			print_r($e);
+		}
+	})->add(new Authentication());
+	
+	$app->get("/archive/evento/{id}",function($request, $response, $args){
+		try {
+			$evento = new Evento();
+			$evento = $evento->find($args['id']);
+			$evento->status = 2; ////// 2 -> Evento archivado, las solicitudes siguen iguales
+			$evento->save();
+
+			return $response->withHeader('Location', BASE_URL."eventos?m=".base64_encode('Evento archivado correctamente') );
+
+		} catch (Exception $e) {
+			print_r($e);
+		}
+	})->add(new Authentication());
 
 	$app->run();

@@ -49,6 +49,7 @@
                 </div>
             <?php } ?>
                 <div class="col-md-12">
+                <p>Leyenda: TV: Televisión, FA: Firma de autógrafos, EP: Evento privado, PR: Prensa, RO: Reunión en la oficina, HS: House show</p>
                     <div class="main-card mb-3 card">
                         
                         <div class="card-header">
@@ -67,7 +68,8 @@
                             <br>
                             <form action="excel" method="POST">
                                 <input type="hidden" name="html_tabla" id="hidden_tabla">
-                                <button style="margin-left:10px"><img src="<?php echo BASE_URL ?>views/assets/images/descargar-excel.png" alt="" style="width: 72px;margin-left: 10px;"></button>
+                                <button style="margin-left:10px"><img src="<?php echo BASE_URL ?>views/assets/images/descargar-excel.png" alt="" style="width: 72px;margin-left: 10px;"></button><br>
+
                             </form>
                            
                         </div>  

@@ -1,5 +1,5 @@
 <?php include('header.php');
-    use Mainclass\Models\Indumentaria;
+    use Mainclass\Models\Logprecio;
 ?>
 <div class="app-main">
     <div class="app-sidebar sidebar-shadow">
@@ -48,7 +48,7 @@
             <?php } ?>
                 <div class="col-md-12">
                     <div class="main-card mb-3 card">
-                        <div class="card-header">Indumentarias:</div>
+                        <div class="card-header">Cambios de tarifa:</div>
                         <!--<div class="p10">
                             <div id='calendar'></div>
                         </div>-->
@@ -56,40 +56,43 @@
   
                         <div class="table-responsive">
                             <?php 
-                            $indumentaria = new Indumentaria();
-                            $indumentaria = $indumentaria->where('status',1)->get();
+                            $logprecio = new Logprecio();
+                            $logprecio = $logprecio->all();
                             ?>
                             <table class="align-middle mb-0 table table-borderless table-striped table-hover">
                                 <thead>
                                     <tr>
                                         <th class="text-center">#</th>
-                                        <th>Nombre</th>
-                                        <th class="text-center">Editar</th>
-                                        <th class="text-center">Eliminar</th>
+                                        <th>Usuario que modifica</th>
+                                        <th>Luchador</th>
+                                        <th>TV</th>
+                                        <th>Firma</th>
+                                        <th>Privado</th>
+                                        <th>Prensa</th>
+                                        <th>Oficina</th>
+                                        <th>Fecha</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php 
-                                    foreach ($indumentaria as $r) {
-                                        ?>
-                                         <tr>
-                                        <td class="text-center text-muted"><?php echo $r->id ?></td>
-                                        <td class="text-muted"><?php echo $r->nombre ?></td>
-                                        <td class="text-center">
-                                            <a href="<?php echo BASE_URL ?>editar-indumentaria/<?php echo $r->id ?>" class="btn btn-primary btn-sm">Editar</a>
-                                        </td>
-                                        <td class="text-center">
-                                            <a onclick="return confirm('¿Está seguro de querer eliminar?');" href="<?php echo BASE_URL ?>delete/indumentaria/<?php echo $r->id ?>" class="btn btn-danger btn-sm">Eliminar</a>
-                                        </td>
+                                    foreach ($logprecio as $r) {
+                                    ?>
+                                    <tr>
+                                    <td class="text-muted cenet"><?php echo ($r->id) ?></td>
+                                    <td class="text-muted"><?php echo traducirUsuario($r->id_usuario) ?></td>
+                                    <td class="text-muted"><?php echo traducirUsuario($r->id_luchador) ?></td>
+                                    <td class="text-muted"><?php echo ($r->tv) ?></td>
+                                    <td class="text-muted"><?php echo ($r->firma) ?></td>
+                                    <td class="text-muted"><?php echo ($r->privado) ?></td>
+                                    <td class="text-muted"><?php echo ($r->prensa) ?></td>
+                                    <td class="text-muted"><?php echo ($r->oficina) ?></td>
+                                    <td class="text-muted"><?php echo ($r->created_at) ?></td>
                                     </tr>
-                                        <?php
+                                    <?php 
                                     }
                                     ?>
                                     </tbody>
                                 </table>
-                            </div>
-                            <div class="d-block text-center card-footer">
-                                <a href="<?php echo BASE_URL ?>agregar-indumentaria" class="btn-wide btn btn-success">Agregar Indumentaria</a>
                             </div>
                         </div>
                     </div>

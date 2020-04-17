@@ -19,7 +19,12 @@ function traducirRol($id){
 function traducirUsuario($id){
 	$usuario = new Usuario();
 	$usuario = $usuario->find($id);
-	return $usuario->nombre;
+	return $usuario->nombre." ".$usuario->paterno." ".$usuario->materno;
+}
+function traducirPersonaje($id){
+	$usuario = new Usuario();
+	$usuario = $usuario->find($id);
+	return $usuario->personaje;
 }
 function traducirIndumentaria($id){
 	$indumentaria = new Indumentaria();
@@ -134,3 +139,12 @@ function enviarCorreo($id_usuario, $subject ,$html){
 		echo "Email sent successfully";
 	}
 }
+
+
+function days_diff($d1,$d2){
+	$date1 = new DateTime($d1);
+	$date2 = new DateTime($d2);
+	$diff = $date1->diff($date2);
+	return $diff->h;
+}
+
