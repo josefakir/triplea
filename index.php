@@ -837,7 +837,7 @@
 		$booking = $booking->where('fecha','>=',$start)->where('fecha','<=',$end)->get();
 		$return = array();
 		foreach ($booking as $b) {
-			$talento = traducirUsuario($b->id_usuario);
+			$talento = traducirPersonaje($b->id_usuario);
 			$indumentaria = traducirIndumentaria($b->id_indumentaria);
 			$r = array(
 				'title' => $talento." ".$indumentaria,

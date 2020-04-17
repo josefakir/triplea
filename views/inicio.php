@@ -104,23 +104,9 @@
         var calendarEl = document.getElementById('calendar');
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
-            /*
-            events: [
-    {
-      title: 'Event Title1',
-      start: '2020-03-03T13:13:55.008',
-    },
-    {
-      title: 'Event Title2',
-      start: '2015-03-17T13:13:55-0400',
-      end: '2015-03-19T13:13:55-0400'
-    }
-  ],
-  */
           plugins: [ 'dayGrid' ],
           eventSources: [
 
-            // your event source
             {
             url: '<?php echo BASE_URL ?>todos-los-eventos', // use the `url` property
             textColor: 'white'  // an option!
