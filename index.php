@@ -1067,7 +1067,7 @@
 		try {
 			$evento = new Evento();
 			$evento = $evento->find($args['id']);
-			$evento->status = 0;
+			$evento->status = 1;
 			$evento->save();
 
 			$booking = new Booking();
