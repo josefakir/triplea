@@ -595,6 +595,7 @@
 				$evento = new Evento();
 				$evento->nombre = $request->getParsedBodyParam('evt');
 				$evento->fecha = $request->getParsedBodyParam('fecha');
+				$evento->status = 1;
 				$evento->save();
 				$id_evento = $evento->id;
 			}
