@@ -88,7 +88,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="widget-content-left flex2">
-                                                        <div class="widget-heading"><?php echo $u->nombre ?></div>
+                                                        <div class="widget-heading"><?php echo $u->nombre." - ".traducirPersonaje($u->id) ?></div>
                                                         <div class="widget-subheading opacity-7"><?php echo traducirRol($u->rol) ?></div>
                                                     </div>
                                                 </div>
