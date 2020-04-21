@@ -54,7 +54,7 @@
                 <div class="col-md-12">
                     <form method="post" action="<?php echo BASE_URL ?>insert/booking">
                         <div class="form-group">
-                            <label>Fecha de solicitud</label>
+                            <label>Fecha de evento</label>
                             <input type="text" name="fecha" class="datepicker form-control buscar_disponibles" autocomplete="off" id="fecha_buscar">
                         </div>
                         <div class="form-group" style="position:relative">

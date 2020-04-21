@@ -127,7 +127,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Fecha de solicitud</label>
+                            <label>Fecha de evento</label>
                             <input type="text" name="fecha" class="datepicker form-control" value="<?php echo $fecha; ?>">
                         </div>
                         <div class="form-group">
