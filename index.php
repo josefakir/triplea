@@ -834,15 +834,15 @@
 		$end = $_GET['end'];
 		$end = explode("T",$end);
 		$end =  $end[0];
-		$booking = new Booking();
-		$booking = $booking->where('fecha','>=',$start)->where('fecha','<=',$end)->get();
+		$evento = new Evento();
+		$evento = $evento->where('fecha','>=',$start)->where('fecha','<=',$end)->get();
 		$return = array();
-		foreach ($booking as $b) {
-			$talento = traducirPersonaje($b->id_usuario);
-			$indumentaria = traducirIndumentaria($b->id_indumentaria);
+		foreach ($evento as $e) {
+			$evento = $e->nombre;
+			$fecha = $e->fecha;
 			$r = array(
-				'title' => $talento." ".$indumentaria,
-				'start' => $b->fecha
+				'title' => $evento,
+				'start' => $fecha
 			);
 			array_push($return,$r);
 		}
