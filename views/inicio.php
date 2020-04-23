@@ -38,7 +38,8 @@
     </div>
     <div class="app-main__outer">
         <div class="app-main__inner">
-           <div class="row">
+        <?php if($_SESSION['rol']!=5){ ?>
+            <div class="row">
                 <div class="col-md-4">
                     <div class="card">
                         <div class="padding">
@@ -65,11 +66,11 @@
                                     echo $count;
                                 ?>
                             </h2>
-                           <p class="tac"><a href="<?php echo BASE_URL ?>bookings-aprobadas" class="btn btn-success">Ver solicitudes</a></p>
+                            <p class="tac"><a href="<?php echo BASE_URL ?>bookings-aprobadas" class="btn btn-success">Ver solicitudes</a></p>
                         </div>
                     </div>
                 </div>
-               <div class="col-md-4">
+                <div class="col-md-4">
                     <div class="card">
                             <div class="padding">
                                 <h2 class="tac text-danger">Solicitudes rechazadas: 
@@ -84,8 +85,8 @@
                             </div>
                         </div>
                     </div>
-               </div>
-               <div class="row">
+                </div>
+                <div class="row">
                     <div class="col-md-12">
                         <p>&nbsp;</p>
                         <div class="p10">
@@ -93,29 +94,25 @@
                         </div>
                     </div>
                 </div>
-           </div> 
+            </div> 
+        <?php } ?>
         </div>
     </div>
 </div>
 <?php include("footer.php") ?>
 <script>
-
-      document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
-
         var calendar = new FullCalendar.Calendar(calendarEl, {
-          plugins: [ 'dayGrid' ],
-          eventSources: [
-
+            plugins: [ 'dayGrid' ],
+            eventSources: [
             {
             url: '<?php echo BASE_URL ?>todos-los-eventos', // use the `url` property
             textColor: 'white'  // an option!
             }
-
         ]
         });
-
         calendar.render();
-      });
+    });
 
     </script>
