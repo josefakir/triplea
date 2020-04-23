@@ -221,7 +221,7 @@
 			$usuario->vigencia_visa = $vigencia_visa;
 		}
 		if(!empty($id_banco)){
-			$usuario->id_banco = $id_banco;
+			$usuario->banco = $id_banco;
 		}
 		if(!empty($cuenta)){
 			$usuario->cuenta = $cuenta;
@@ -275,8 +275,14 @@
 		$ine = $request->getParsedBodyParam('ine');
 		$pasaporte = $request->getParsedBodyParam('pasaporte');
 		$vigencia_pasaporte = $request->getParsedBodyParam('vigencia_pasaporte');
+		if($vigencia_pasaporte==""){
+			$vigencia_pasaporte = NULL;
+		}
 		$visa = $request->getParsedBodyParam('visa');
 		$vigencia_visa = $request->getParsedBodyParam('vigencia_visa');
+		if($vigencia_visa==""){
+			$vigencia_visa = NULL;
+		}
 		$banco = $request->getParsedBodyParam('banco');
 		$cuenta = $request->getParsedBodyParam('cuenta');
 		$clabe = $request->getParsedBodyParam('clabe');
@@ -348,7 +354,7 @@
 		$usuario->vigencia_pasaporte = $vigencia_pasaporte;
 		$usuario->visa = $visa;
 		$usuario->vigencia_visa = $vigencia_visa;
-		$usuario->id_banco = $id_banco;
+		$usuario->banco = $id_banco;
 		$usuario->cuenta = $cuenta;
 		$usuario->clabe = $clabe;
 		$usuario->sucursal = $sucursal;

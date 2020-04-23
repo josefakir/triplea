@@ -62,7 +62,7 @@
                         </div>
                         <div class="form-group">
                             <label for="">Correo</label>
-                            <input type="text" class="form-control" name="correo" required value="<?php echo $usuario->correo ?>">
+                            <input type="text" class="form-control" name="correo" value="<?php echo $usuario->correo ?>">
                         </div>
                         <div class="form-group">
                             <label for="">Contraseña</label>
@@ -71,15 +71,15 @@
                         </div>
                         <div class="form-group">
                             <label for="">Nombre</label>
-                            <input type="text" class="form-control" name="nombre" required value="<?php echo $usuario->nombre ?>">
+                            <input type="text" class="form-control" name="nombre" value="<?php echo $usuario->nombre ?>">
                         </div>
                         <div class="form-group">
                             <label for="">Paterno</label>
-                            <input type="text" class="form-control" name="paterno" required value="<?php echo $usuario->paterno ?>">
+                            <input type="text" class="form-control" name="paterno" value="<?php echo $usuario->paterno ?>">
                         </div>
                         <div class="form-group">
                             <label for="">Materno</label>
-                            <input type="text" class="form-control" name="materno" required value="<?php echo $usuario->materno ?>">
+                            <input type="text" class="form-control" name="materno" value="<?php echo $usuario->materno ?>">
                         </div>
                         <div class="form-group">
                             <label for="">Avatar</label>
@@ -104,7 +104,7 @@
                         <div id="solotalento" style="display:block !important">
 							<div class="form-group">
 								<label for="">Personaje</label>
-								<input type="text" class="form-control" name="personaje" value="<?php echo $usuario->personaje ?>">
+								<input type="text" class="form-control" name="personaje" value="<?php echo $usuario->personaje ?>" required>
 							</div>
 							<div class="form-group">
 								<label for="">$ Show TV</label>
@@ -138,7 +138,7 @@
 							</div>
 							<div class="form-group">
 								<label for="">Género</label>
-								<select name="genero" id="" class="form-control">
+								<select name="genero" id="" class="form-control" >
 									<option value="">-Seleccione-</option>
 									<option value="H" <?php if($usuario->genero=='H'){ echo " selected "; } ?>>Hombre</option>
 									<option value="M" <?php if($usuario->genero=='M'){ echo " selected "; } ?>>Mujer</option>
@@ -146,7 +146,7 @@
 							</div>
 							<div class="form-group">
 								<label for="">Licencia</label>
-								<input type="text" class="form-control" name="licencia" value="<?php echo $usuario->licencia ?>"  >
+								<input type="text" class="form-control notrequired" name="licencia" value="<?php echo $usuario->licencia ?>"  >
 							</div>
 							<div class="form-group">
 								<label for="">Fecha de nacimiento</label>
@@ -185,39 +185,39 @@
 							</div>
 							<div class="form-group">
 								<label for="">Pasaporte</label>
-								<input type="text" class="form-control" name="pasaporte" value="<?php echo $usuario->pasaporte ?>" >
+								<input type="text" class="form-control notrequired" name="pasaporte" value="<?php echo $usuario->pasaporte ?>" >
 							</div>
 							<div class="form-group">
 								<label for="">Vigencia de pasaporte</label>
-								<input type="text" class="form-control datepicker2" name="vigencia_pasaporte"  value="<?php echo $usuario->vigencia_pasaporte ?>" >
+								<input type="text" class="form-control datepicker2 notrequired" name="vigencia_pasaporte"  value="<?php echo $usuario->vigencia_pasaporte ?>" >
 							</div>
 							<div class="form-group">
 								<label for="">Visa</label>
-								<input type="text" class="form-control" name="visa"  value="<?php echo $usuario->visa ?>">
+								<input type="text" class="form-control notrequired" name="visa"  value="<?php echo $usuario->visa ?>">
 							</div>
 							<div class="form-group">
 								<label for="">Vigencia visa</label>
-								<input type="text" class="form-control datepicker2" name="vigencia_visa"  value="<?php echo $usuario->vigencia_visa ?>">
+								<input type="text" class="form-control datepicker2 notrequired" name="vigencia_visa"  value="<?php echo $usuario->vigencia_visa ?>">
 							</div>
 							<div class="form-group">
 								<label for="">Banco</label>
-								<input type="text" class="form-control" name="banco" value="<?php echo $usuario->banco ?>">
+								<input type="text" class="form-control notrequired" name="banco" value="<?php echo $usuario->banco ?>">
 							</div>
 							<div class="form-group">
 								<label for=""># Cuenta</label>
-								<input type="text" class="form-control" name="cuenta"  value="<?php echo $usuario->cuenta ?>">
+								<input type="text" class="form-control notrequired" name="cuenta"  value="<?php echo $usuario->cuenta ?>">
 							</div>
 							<div class="form-group">
 								<label for=""># CLABE</label>
-								<input type="text" class="form-control" name="clabe" value="<?php echo $usuario->clabe ?>" >
+								<input type="text" class="form-control notrequired" name="clabe" value="<?php echo $usuario->clabe ?>" >
 							</div>
 							<div class="form-group">
 								<label for="">Sucursal</label>
-								<input type="text" class="form-control" name="sucursal" value="<?php echo $usuario->sucursal ?>" >
+								<input type="text" class="form-control notrequired" name="sucursal" value="<?php echo $usuario->sucursal ?>" >
 							</div>
 							<div class="form-group">
 								<label for="">Talla playera</label>
-								<select name="talla_playera" id="" class="form-control">
+								<select name="talla_playera" id="" class="form-control notrequired">
 									<option value="">-Seleccione-</option>
 									<option value="ch" <?php if($usuario->talla_playera=='ch'){ echo " selected "; } ?>>Chica</option>
 									<option value="m" <?php if($usuario->talla_playera=='m'){ echo " selected "; } ?>>Mediana</option>
@@ -228,7 +228,7 @@
 							</div>
 							<div class="form-group">
 								<label for="">Talla Pants</label>
-								<select name="talla_pants" id="" class="form-control">
+								<select name="talla_pants" id="" class="form-control notrequired">
                                 <option value="">-Seleccione-</option>
 									<option value="ch" <?php if($usuario->talla_pants=='ch'){ echo " selected "; } ?>>Chica</option>
 									<option value="m" <?php if($usuario->talla_pants=='m'){ echo " selected "; } ?>>Mediana</option>
