@@ -173,7 +173,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Ajuste (Bono / Descuento)</label>
+                            <label>Ajuste (Bono / Descuento * Revisar tipo de cambio y venta total)</label>
                             <input type="text" name="ajuste" class="form-control" value="<?php echo $booking->ajuste ; ?>">
                         </div>
                         <div class="form-group">
