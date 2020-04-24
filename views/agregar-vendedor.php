@@ -1,5 +1,7 @@
 <?php 
     include('header.php');
+    use Mainclass\Models\Tipo;
+
 ?>
 <div class="app-main">
     <div class="app-sidebar sidebar-shadow">
@@ -50,6 +52,21 @@
                         <div class="form-group">
                             <label for="">Nombre de vendedor:</label>
                             <input class="form-control" type="text" required name="nombre">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Tipo de evento</label>
+                            <select name="id_tipo_evento" class="form-control" required>
+                                <option value="">-Seleccione-</option>
+                                <?php
+                                    $tipo = new Tipo();
+                                    $tipo = $tipo->where('status',1)->orderBy('nombre','ASC')->get();
+                                    foreach ($tipo as $u) {
+                                        ?>
+                                <option value="<?php echo $u->id ?>"><?php echo $u->nombre ?></option>
+                                        <?php
+                                    }
+                                ?>
+                            </select>
                         </div>
                         <button class="btn btn-success">Agregar Vendedor</button>
                     </form>

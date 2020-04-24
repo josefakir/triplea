@@ -644,6 +644,9 @@
 				case '7':
 					$tipo_evento = 'house';
 				break;
+				case '8':
+					$tipo_evento = 'internacional';
+				break;
 			}
 
 
@@ -979,6 +982,7 @@
 			array_push($no_disponibles,$luchador);
 			array_push($notin,$a->id);
 		}
+		$no_disponibles = array_unique($no_disponibles);
 		$lesionados = new Usuario();
 		$lesionados = $lesionados->where('lesion_permiso_eventualidad',1)->where('usuarios.rol',3)->get();
 		foreach ($lesionados as $a) {
@@ -1023,9 +1027,11 @@
 	$app->post("/insert/vendedor",function($request, $response, $args){
 		try {
 			$nombre = $request->getParsedBodyParam('nombre');
+			$id_tipo_evento = $request->getParsedBodyParam('id_tipo_evento');
 
 			$vendedor = new Vendedor();
 			$vendedor->nombre = $nombre;
+			$vendedor->id_tipo_evento = $id_tipo_evento;
 			$vendedor->status = true;
 			$vendedor->save();
 			return $response->withHeader('Location', BASE_URL."vendedores?m=".base64_encode('Vendedor agregado correctamente') );
@@ -1038,10 +1044,12 @@
 		try {
 			$nombre = $request->getParsedBodyParam('nombre');
 			$id = $request->getParsedBodyParam('id');
+			$id_tipo_evento = $request->getParsedBodyParam('id_tipo_evento');
 
 			$vendedor = new Vendedor();
 			$vendedor = $vendedor->find($id);
 			$vendedor->nombre = $nombre;
+			$vendedor->id_tipo_evento = $id_tipo_evento;
 			$vendedor->save();
 			return $response->withHeader('Location', BASE_URL."vendedores?m=".base64_encode('Vendedor modificado correctamente') );
 		} catch (Exception $e) {

@@ -131,6 +131,11 @@
 								<input type="number" class="form-control" name="house" >
 							</div>
 							<div class="form-group">
+								<label for="">$ Internacional</label>
+								<small>(Cantidad que se le paga por un show internacional)</small>
+								<input type="number" class="form-control" name="internacional" >
+							</div>
+							<div class="form-group">
 								<label for="">Género</label>
 								<select name="genero" id="" class="form-control">
 									<option value="">-Seleccione-</option>

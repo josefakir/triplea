@@ -80,7 +80,7 @@
                                     <tr>
                                     <td class="text-muted cenet"><?php echo ($r->id) ?></td>
                                     <td class="text-muted"><?php echo traducirUsuario($r->id_usuario) ?></td>
-                                    <td class="text-muted"><?php echo traducirUsuario($r->id_luchador) ?></td>
+                                    <td class="text-muted"><?php echo traducirPersonaje($r->id_luchador) ?></td>
                                     <td class="text-muted"><?php echo ($r->tv) ?></td>
                                     <td class="text-muted"><?php echo ($r->firma) ?></td>
                                     <td class="text-muted"><?php echo ($r->privado) ?></td>

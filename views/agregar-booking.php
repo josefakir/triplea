@@ -80,9 +80,11 @@
                         <div class="row">
                         <div class="form-group col">
                             <label for="">Talento (Luchador) Disponible</label>
-                            <select name="id_usuario[]" class="form-control" required multiple id="id_usuario"  style="height: 400px;">
+                            <div id="id_usuario">
+                            </div>
+                            <!--<select name="id_usuario[]" class="form-control" required multiple id="id_usuario"  style="height: 400px;">
                                 <option value="">-Seleccione-</option>
-                            </select>
+                            </select>-->
                         </div>
                         
                         <div class="form-group col">
@@ -248,13 +250,25 @@
                     var outputdisponibles = '';
                     var outputnodisponibles = '';
                     $.each(disponibles,function( index, value ) {
-                        outputdisponibles += '<option value="'+value.id+'">'+value.nombre+'</option>';
+                        //outputdisponibles += '<option value="'+value.id+'">'+value.nombre+'</option>';
+                        outputdisponibles+='<p style="margin-bottom:0"><input type="checkbox" value="'+value.id+'" name="id_usuario[]" /> <label>'+value.nombre+'</label></p>';
                     });
                     $.each(nodisponibles,function( index, value ) {
+                        <?php
+                            if($_SESSION['rol']==1){
+                                ?>
+                        outputnodisponibles+='<p style="margin-bottom:0"><input type="checkbox" value="'+value.id+'" name="id_usuario[]" /> <label>'+value.nombre+'</label></p>';
+                                <?php
+                            }else{
+                                ?>
                         outputnodisponibles += '<li>'+value.nombre+'</li>';
+                                <?php
+                            }
+                        ?>
                     });
-                    $('#id_usuario').html(outputdisponibles)
-                    $('#lista_no_disponibles').html(outputnodisponibles)
+                    console.log(outputdisponibles);
+                    $('#id_usuario').html(outputdisponibles);
+                    $('#lista_no_disponibles').html(outputnodisponibles);
                 }
             })
         })

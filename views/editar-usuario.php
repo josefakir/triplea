@@ -137,6 +137,11 @@
 								<input type="number" class="form-control" name="house"  value="<?php echo $usuario->house ?>">
 							</div>
 							<div class="form-group">
+								<label for="">$ Internacional</label>
+								<small>(Cantidad que se le paga por un show internacional)</small>
+								<input type="number" class="form-control" name="internacional" value="<?php echo $usuario->internacional ?>>
+							</div>
+							<div class="form-group">
 								<label for="">Género</label>
 								<select name="genero" id="" class="form-control" >
 									<option value="">-Seleccione-</option>
@@ -181,7 +186,7 @@
 							</div>
 							<div class="form-group">
 								<label for="">INE</label>
-								<input type="text" class="form-control" name="ine" value="<?php echo $usuario->ine ?>" >
+								<input type="text" class="form-control notrequired" name="ine" value="<?php echo $usuario->ine ?>" >
 							</div>
 							<div class="form-group">
 								<label for="">Pasaporte</label>

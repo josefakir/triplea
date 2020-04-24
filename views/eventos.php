@@ -73,7 +73,7 @@
                                     <?php 
                                     foreach ($evento as $r) {
                                         ?>
-                                         <tr>
+                                        <tr>
                                         <td class="text-center text-muted"><?php echo $r->id ?></td>
                                         <td class="text-muted"><?php echo $r->nombre ?></td>
                                         <!--<td class="text-center">
@@ -83,7 +83,17 @@
                                             <a onclick="return confirm('¿Está seguro de querer cancelar el evento (Se eliminarán todos los booking asociados a este evento)?');" href="<?php echo BASE_URL ?>cancel/evento/<?php echo $r->id ?>" class="btn btn-danger btn-sm">Cancelar Evento</a>
                                         </td>
                                         <td class="text-center">
+                                            <?php 
+                                                $date_now = new DateTime();
+                                                $date2    = new DateTime($r->fecha);
+                                                if ($date_now > $date2) {
+                                                    echo 'Aún no se puede archivar';
+                                                }else{
+                                                    ?>
                                             <a onclick="return confirm('¿Está seguro de querer archivar (Se ocultará de esta lista, pero su información seguirá disponible)?');" href="<?php echo BASE_URL ?>archive/evento/<?php echo $r->id ?>" class="btn btn-danger btn-sm">Archivar Evento</a>
+                                                    <?php
+                                                }
+                                            ?>
                                         </td>
                                     </tr>
                                         <?php

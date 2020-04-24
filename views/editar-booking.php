@@ -68,7 +68,7 @@
                     <form method="post" action="<?php echo BASE_URL ?>update/booking">
                         <div class="form-group">
                             <label for="">Talento (Luchador)</label>
-                            <select name="id_usuario" class="form-control" required readonly>
+                            <select name="id_usuario" class="form-control" required readonly disabled>
                                 <option value="">-Seleccione-</option>
                                 <?php
                                     $usuario = new Usuario();
@@ -191,10 +191,10 @@
     </div>
 </div>
 <script>
-      function initMap() {
+    function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: 19.4109627, lng: -99.1865804},
-          zoom: 13
+            center: {lat: 19.4109627, lng: -99.1865804},
+            zoom: 13
         });
         var card = document.getElementById('pac-card');
         var input = document.getElementById('pac-input');
@@ -211,47 +211,47 @@
         var infowindowContent = document.getElementById('infowindow-content');
         infowindow.setContent(infowindowContent);
         var marker = new google.maps.Marker({
-          map: map,
-          anchorPoint: new google.maps.Point(0, -29)
+        map: map,
+        anchorPoint: new google.maps.Point(0, -29)
         });
         autocomplete.addListener('place_changed', function() {
-          infowindow.close();
-          marker.setVisible(false);
-          var place = autocomplete.getPlace();
-          if (!place.geometry) {
+            infowindow.close();
+            marker.setVisible(false);
+            var place = autocomplete.getPlace();
+        if (!place.geometry) {
             window.alert("No encontramos la dirección: '" + place.name + "'");
-            return;
-          }
-          if (place.geometry.viewport) {
+        return;
+        }
+        if (place.geometry.viewport) {
             map.fitBounds(place.geometry.viewport);
-          } else {
+        } else {
             map.setCenter(place.geometry.location);
             map.setZoom(17);  // Why 17? Because it looks good.
-          }
-          marker.setPosition(place.geometry.location);
-          marker.setVisible(true);
-          var address = '';
-          if (place.address_components) {
+        }
+        marker.setPosition(place.geometry.location);
+        marker.setVisible(true);
+        var address = '';
+        if (place.address_components) {
             address = [
-              (place.address_components[0] && place.address_components[0].short_name || ''),
-              (place.address_components[1] && place.address_components[1].short_name || ''),
-              (place.address_components[2] && place.address_components[2].short_name || '')
+                (place.address_components[0] && place.address_components[0].short_name || ''),
+                (place.address_components[1] && place.address_components[1].short_name || ''),
+                (place.address_components[2] && place.address_components[2].short_name || '')
             ].join(' ');
-          }
-          infowindowContent.children['place-icon'].src = place.icon;
-          infowindowContent.children['place-name'].textContent = place.name;
-          infowindowContent.children['place-address'].textContent = address;
-          infowindow.open(map, marker);
-          var latlong = place.geometry.location;
-          if(place.name !=undefined){
+        }
+        infowindowContent.children['place-icon'].src = place.icon;
+        infowindowContent.children['place-name'].textContent = place.name;
+        infowindowContent.children['place-address'].textContent = address;
+        infowindow.open(map, marker);
+        var latlong = place.geometry.location;
+        if(place.name !=undefined){
             var address = place.name+' '+place.address_components[1].short_name+' '+place.address_components[0].short_name+' '+place.address_components[2].short_name+' '+place.address_components[6].short_name+' '+place.address_components[3].short_name+' '+place.address_components[4].short_name+' '+place.address_components[5].short_name;
-          }else{
+        }else{
             var address = place.address_components[1].short_name+' '+place.address_components[0].short_name+' '+place.address_components[2].short_name+' '+place.address_components[6].short_name+' '+place.address_components[3].short_name+' '+place.address_components[4].short_name+' '+place.address_components[5].short_name;
-          }
-          $('#input_direccion').val(address);
-          $('#input_latlong').val(latlong);
-        });
-      }
+        }
+        $('#input_direccion').val(address);
+        $('#input_latlong').val(latlong);
+    });
+}
     </script>
     <script src="<?php echo base64_decode("aHR0cHM6Ly9tYXBzLmdvb2dsZWFwaXMuY29tL21hcHMvYXBpL2pzP2tleT1BSXphU3lDU2RNWGtMMTVsNkxLRk1RcWRzTUQ3LWRBaFVIWGRGUjgmbGlicmFyaWVzPXBsYWNlcyZjYWxsYmFjaz1pbml0TWFw") ?>"
         async defer></script>

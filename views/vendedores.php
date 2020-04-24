@@ -62,6 +62,7 @@
                                     <tr>
                                         <th class="text-center">#</th>
                                         <th>Nombre</th>
+                                        <th>Tipo de evento</th>
                                         <th class="text-center">Editar</th>
                                         <th class="text-center">Eliminar</th>
                                     </tr>
@@ -92,6 +93,9 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                        </td>
+                                        <td>
+                                            <?php echo traducirTipo($u->id_tipo_evento);  ?>
                                         </td>
                                         <td class="text-center">
                                             <a href="<?php echo BASE_URL ?>editar-vendedor/<?php echo $u->id ?>" class="btn btn-primary btn-sm">Editar</a>
