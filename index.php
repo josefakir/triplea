@@ -917,10 +917,10 @@
 ////// APP MOVIL API
 
 	$app->post("/api/v1/login",function($request, $response, $args){
-		$correo = $request->getHeader('correo')[0];
+		$usuario = $request->getHeader('correo')[0];
 		$contrasena = md5($request->getHeader('contrasena')[0]);
 		$user = new Usuario();
-		$users = $user->where('correo', $correo)->where('contrasena', $contrasena)->where('status', 1)->get();
+		$users = $user->where('usuario', $usuario)->where('contrasena', $contrasena)->where('status', 1)->get();
 		if($users->count()>0){
 			$payload = [];
 			foreach($users as $u){

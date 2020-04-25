@@ -70,7 +70,7 @@
                                     <tr><td><a href="<?php echo BASE_URL ?>ranking-anual-cantidad?anio=<?php echo date('Y') ?>">Ranking luchadores anual (Cantidad de eventos)</a></td></tr>
                                     <tr><td><a href="<?php echo BASE_URL ?>ranking-anual-dinero?anio=<?php echo date('Y') ?>">Ranking luchadores anual (Cantidad de dinero)</a></td></tr>
                                     <tr><td><a href="<?php echo BASE_URL ?>cambios-de-tarifa">Cambios de tarifa</a></td></tr>
-                                    <tr><td><a href="<?php echo BASE_URL ?>reporte-vendedores">Vendedores</a></td></tr>
+                                    <!--<tr><td><a href="<?php echo BASE_URL ?>reporte-vendedores">Vendedores</a></td></tr>-->
                                     </tbody>
                                 </table>
                             </div>
