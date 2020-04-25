@@ -139,7 +139,7 @@
 							<div class="form-group">
 								<label for="">$ Internacional</label>
 								<small>(Cantidad que se le paga por un show internacional)</small>
-								<input type="number" class="form-control" name="internacional" value="<?php echo $usuario->internacional ?>>
+								<input type="number" class="form-control" name="internacional" value="<?php echo $usuario->internacional ?>">
 							</div>
 							<div class="form-group">
 								<label for="">Género</label>
@@ -155,7 +155,7 @@
 							</div>
 							<div class="form-group">
 								<label for="">Fecha de nacimiento</label>
-								<input type="text" class="form-control datepicker2" name="fecha_nacimiento"  value="<?php echo $usuario->fecha_nacimiento ?>" >
+								<input type="text" class="form-control datepicker2 notrequired" name="fecha_nacimiento"  value="<?php echo $usuario->fecha_nacimiento ?>" >
 							</div>
 							<div class="form-group">
 								<label for="">Nacionalidad</label>
@@ -174,15 +174,15 @@
 							</div>
 							<div class="form-group">
 								<label for="">Celular</label>
-								<input type="text" class="form-control" name="celular"  value="<?php echo $usuario->celular ?>">
+								<input type="text" class="form-control notrequired" name="celular"  value="<?php echo $usuario->celular ?>">
 							</div>
 							<div class="form-group">
 								<label for="">RFC</label>
-								<input type="text" class="form-control" name="rfc"  value="<?php echo $usuario->rfc ?>">
+								<input type="text" class="form-control notrequired" name="rfc"  value="<?php echo $usuario->rfc ?>">
 							</div>
 							<div class="form-group">
 								<label for="">Dirección</label>
-								<input type="text" class="form-control" name="direccion"  value="<?php echo $usuario->direccion ?>">
+								<input type="text" class="form-control notrequired" name="direccion"  value="<?php echo $usuario->direccion ?>">
 							</div>
 							<div class="form-group">
 								<label for="">INE</label>

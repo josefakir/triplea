@@ -62,8 +62,8 @@
                         ?>
                         
                             <form action="<?php echo BASE_URL ?>reporte-por-fecha" method="GET">
-                            <input type="text" name="fecha_inicial" class="datepicker2 " autocomplete="off" style="margin-left:10px" placeholder="Fecha inicial"  onchange="this.form.submit()" value="<?php echo $_GET['fecha_inicial'] ?>">
-                            <input type="text" name="fecha_final" class="datepicker2 " autocomplete="off" style="margin-left:10px" placeholder="Fecha inicial"  onchange="this.form.submit()" value="<?php echo $_GET['fecha_final'] ?>">
+                            <input type="text" name="fecha_inicial" class="datepicker2 " autocomplete="off" style="margin-left:10px" placeholder="Fecha Inicial"  onchange="this.form.submit()" value="<?php echo $_GET['fecha_inicial'] ?>">
+                            <input type="text" name="fecha_final" class="datepicker2 " autocomplete="off" style="margin-left:10px" placeholder="Fecha Final"  onchange="this.form.submit()" value="<?php echo $_GET['fecha_final'] ?>">
                             </form>
                             <br>
                             <form action="excel" method="POST">
@@ -87,6 +87,7 @@
                                     <th>PR</th>
                                     <th>RO</th>
                                     <th>HS</th>
+                                    <th>INT</th>
                                     <th>Total de eventos</th>
                                     <th>$ total</th>
                                     </tr>
@@ -97,14 +98,14 @@
 
                                         if(!empty($_GET['fecha_inicial']) and !empty($_GET['fecha_final']) ){
                                             $usuario = new Usuario();
-                                            $usuario = $usuario->where('rol',3)->orderBy('nombre','ASC')->get();
+                                            $usuario = $usuario->where('rol',3)->orderBy('personaje','ASC')->get();
                                             foreach ($usuario as $u) {
                                                 $total = 0;
                                                 $costo_total = 0;
                                                 ?>
                                                 <tr>
                                                     <td><?php echo $u->id ?></td>
-                                                    <td><?php echo $u->nombre ?></td>
+                                                    <td><?php echo $u->personaje ?></td>
                                                     <td>
                                                         <?php
                                                             $b = new Booking();
@@ -150,6 +151,13 @@
                                                     <td>
                                                     <?php
                                                             $b = new Booking();
+                                                            $b = $b->where('fecha','>=',$_GET['fecha_inicial'])->where('fecha','<=',$_GET['fecha_final'])->where('id_usuario',$u->id)->where('status',1)->where('id_tipo',7)->get();
+                                                            echo count($b);
+                                                        ?>
+                                                    </td> 
+                                                    <td>
+                                                    <?php
+                                                            $b = new Booking();
                                                             $b = $b->where('fecha','>=',$_GET['fecha_inicial'])->where('fecha','<=',$_GET['fecha_final'])->where('id_usuario',$u->id)->where('status',1)->get();
                                                             echo count($b)
                                                             
@@ -161,7 +169,13 @@
                                                             $b = $b->where('fecha','>=',$_GET['fecha_inicial'])->where('fecha','<=',$_GET['fecha_final'])->where('id_usuario',$u->id)->where('status',1)->get();
                                                             $money = 0;
                                                             foreach ($b as $m) {
-                                                                $money += $m->precio;
+                                                                if($m->recibo_honorarios==1){
+                                                                    $money += retenciones($m->precio);
+                                                                    $money += $m->ajuste;
+                                                                }else{
+                                                                    $money += $m->precio;
+                                                                    $money += $m->ajuste;
+                                                                }
                                                             }
                                                             echo '$'.number_format($money,2);
                                                     ?>

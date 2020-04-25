@@ -148,3 +148,11 @@ function days_diff($d1,$d2){
 	return $diff->h;
 }
 
+function retenciones($garantia){
+	$honorarios = $garantia / 1.16;
+	$iva = $honorarios * .16;
+	$ret_isr = $honorarios * .1;
+	$ret_iva = $iva * 0.666666666666667;
+	$conretencion = $honorarios+$iva-$ret_isr-$ret_iva;
+	return round($conretencion,2);
+}

@@ -264,11 +264,18 @@
 		$prensa = $request->getParsedBodyParam('prensa');
 		$oficina = $request->getParsedBodyParam('oficina');
 		$house = $request->getParsedBodyParam('house');
+		$internacional = $request->getParsedBodyParam('internacional');
 
 		$genero = $request->getParsedBodyParam('genero');
 		$licencia = $request->getParsedBodyParam('licencia');
 		$fecha_nacimiento = $request->getParsedBodyParam('fecha_nacimiento');
+		if($fecha_nacimiento==""){
+			$fecha_nacimiento = NULL;
+		}
 		$id_nacionalidad = $request->getParsedBodyParam('id_nacionalidad');
+		if($id_nacionalidad==""){
+			$id_nacionalidad = NULL;
+		}
 		$celular = $request->getParsedBodyParam('celular');
 		$rfc = $request->getParsedBodyParam('rfc');
 		$direccion = $request->getParsedBodyParam('direccion');
@@ -341,6 +348,7 @@
 		$usuario->prensa = $prensa;
 		$usuario->oficina = $oficina;
 		$usuario->house = $house;
+		$usuario->internacional = $internacional;
 
 		$usuario->genero = $genero;
 		$usuario->licencia = $licencia;
@@ -638,13 +646,13 @@
 				case '4':
 					$tipo_evento = 'prensa';
 				break;
-				case '6':
+				case '5':
 					$tipo_evento = 'oficina';
 				break;
-				case '7':
+				case '6':
 					$tipo_evento = 'house';
 				break;
-				case '8':
+				case '7':
 					$tipo_evento = 'internacional';
 				break;
 			}

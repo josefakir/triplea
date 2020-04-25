@@ -46,7 +46,7 @@
                 </div>
             <?php } ?>
                 <div class="col-md-12">
-                <p>Leyenda: TV: Televisión, FA: Firma de autógrafos, EP: Evento privado, PR: Prensa, RO: Reunión en la oficina, HS: House show</p>
+                <p>Leyenda: TV: Televisión, FA: Firma de autógrafos, EP: Evento privado, PR: Prensa, RO: Reunión en la oficina, HS: House show, INT: Internacional</p>
                     <div class="main-card mb-3 card">
                     
                         <div class="card-header">
@@ -72,20 +72,20 @@
                                     <tr>
                                     <th>#</th>
                                     <th>Talento</th>
-                                    <th colspan="6">Enero</th>
-                                    <th colspan="6">Febrero</th>
-                                    <th colspan="6">Marzo</th>
-                                    <th colspan="6">Abril</th>
-                                    <th colspan="6">Mayo</th>
-                                    <th colspan="6">Junio</th>
-                                    <th colspan="6">Julio</th>
-                                    <th colspan="6">Agosto</th>
-                                    <th colspan="6">Septiembre</th>
-                                    <th colspan="6">Octubre</th>
-                                    <th colspan="6">Noviembre</th>
-                                    <th colspan="6">Diciembre</th>
-                                    <th colspan="6">Total por tipo de evento</th>
-                                    <th colspan="6">$ por tipo de evento</th>
+                                    <th colspan="7">Enero</th>
+                                    <th colspan="7">Febrero</th>
+                                    <th colspan="7">Marzo</th>
+                                    <th colspan="7">Abril</th>
+                                    <th colspan="7">Mayo</th>
+                                    <th colspan="7">Junio</th>
+                                    <th colspan="7">Julio</th>
+                                    <th colspan="7">Agosto</th>
+                                    <th colspan="7">Septiembre</th>
+                                    <th colspan="7">Octubre</th>
+                                    <th colspan="7">Noviembre</th>
+                                    <th colspan="7">Diciembre</th>
+                                    <th colspan="7">Total por tipo de evento</th>
+                                    <th colspan="7">$ por tipo de evento</th>
                                     <th>Total de eventos</th>
                                     <th>$ total</th>
                                     </tr>
@@ -98,84 +98,98 @@
                                     <th>PR</th>
                                     <th>RO</th>
                                     <th>HS</th>
+                                    <th>INT</th>
                                     <th>TV</th>
                                     <th>FA</th>
                                     <th>EP</th>
                                     <th>PR</th>
                                     <th>RO</th>
                                     <th>HS</th>
+                                    <th>INT</th>
                                     <th>TV</th>
                                     <th>FA</th>
                                     <th>EP</th>
                                     <th>PR</th>
                                     <th>RO</th>
                                     <th>HS</th>
+                                    <th>INT</th>
                                     <th>TV</th>
                                     <th>FA</th>
                                     <th>EP</th>
                                     <th>PR</th>
                                     <th>RO</th>
                                     <th>HS</th>
+                                    <th>INT</th>
                                     <th>TV</th>
                                     <th>FA</th>
                                     <th>EP</th>
                                     <th>PR</th>
                                     <th>RO</th>
                                     <th>HS</th>
+                                    <th>INT</th>
                                     <th>TV</th>
                                     <th>FA</th>
                                     <th>EP</th>
                                     <th>PR</th>
                                     <th>RO</th>
                                     <th>HS</th>
+                                    <th>INT</th>
                                     <th>TV</th>
                                     <th>FA</th>
                                     <th>EP</th>
                                     <th>PR</th>
                                     <th>RO</th>
                                     <th>HS</th>
+                                    <th>INT</th>
                                     <th>TV</th>
                                     <th>FA</th>
                                     <th>EP</th>
                                     <th>PR</th>
                                     <th>RO</th>
                                     <th>HS</th>
+                                    <th>INT</th>
                                     <th>TV</th>
                                     <th>FA</th>
                                     <th>EP</th>
                                     <th>PR</th>
                                     <th>RO</th>
                                     <th>HS</th>
+                                    <th>INT</th>
                                     <th>TV</th>
                                     <th>FA</th>
                                     <th>EP</th>
                                     <th>PR</th>
                                     <th>RO</th>
                                     <th>HS</th>
+                                    <th>INT</th>
                                     <th>TV</th>
                                     <th>FA</th>
                                     <th>EP</th>
                                     <th>PR</th>
                                     <th>RO</th>
                                     <th>HS</th>
+                                    <th>INT</th>
                                     <th>TV</th>
                                     <th>FA</th>
                                     <th>EP</th>
                                     <th>PR</th>
                                     <th>RO</th>
                                     <th>HS</th>
+                                    <th>INT</th>
                                     <th>TV</th>
                                     <th>FA</th>
                                     <th>EP</th>
                                     <th>PR</th>
                                     <th>RO</th>
                                     <th>HS</th>
+                                    <th>INT</th>
                                     <th>TV</th>
                                     <th>FA</th>
                                     <th>EP</th>
                                     <th>PR</th>
                                     <th>RO</th>
                                     <th>HS</th>
+                                    <th>INT</th>
                                     <th></th>
                                     <th></th>
                                     </tr>
@@ -185,14 +199,14 @@
                                         <?php 
                                             $anio = $_GET['anio'];
                                             $usuario = new Usuario();
-                                            $usuario = $usuario->where('rol',3)->orderBy('nombre','ASC')->get();
+                                            $usuario = $usuario->where('rol',3)->orderBy('personaje','ASC')->get();
                                             foreach ($usuario as $u) {
                                                 $total = 0;
                                                 $costo_total = 0;
                                                 ?>
                                                 <tr>
                                                     <td><?php echo $u->id ?></td>
-                                                    <td><?php echo $u->nombre ?></td>
+                                                    <td><?php echo $u->personaje ?></td>
                                                     
                                                     <?php 
                                                         for ($i=1; $i < 13 ; $i++) { 
@@ -238,13 +252,20 @@
                                                             $b = $b->where('fecha','>=',$anio.'-'.$i.'-01')->where('fecha','<=',$anio.'-'.$i.'-31')->where('id_usuario',$u->id)->where('status',1)->where('id_tipo',6)->get();
                                                             echo count($b);
                                                         ?>
+                                                    </td>  
+                                                    <td>
+                                                    <?php
+                                                            $b = new Booking();
+                                                            $b = $b->where('fecha','>=',$anio.'-'.$i.'-01')->where('fecha','<=',$anio.'-'.$i.'-31')->where('id_usuario',$u->id)->where('status',1)->where('id_tipo',7)->get();
+                                                            echo count($b);
+                                                    ?>
                                                     </td>           
                                                             <?php
                                                         }
                                                     
                                                     ?>
-                                                   <td>
-                                                   <?php
+                                                    <td>
+                                                    <?php
                                                             $b = new Booking();
                                                             $b = $b->where('fecha','>=',$anio.'-01-01')->where('fecha','<=',$anio.'-12-31')->where('id_usuario',$u->id)->where('status',1)->where('id_tipo',1)->get();
                                                             echo count($b);
@@ -288,10 +309,23 @@
                                                     <td>
                                                     <?php
                                                             $b = new Booking();
+                                                            $b = $b->where('fecha','>=',$anio.'-01-01')->where('fecha','<=',$anio.'-12-31')->where('id_usuario',$u->id)->where('status',1)->where('id_tipo',7)->get();
+                                                            echo count($b);
+                                                    ?>
+                                                    </td>  
+                                                    <td>
+                                                    <?php
+                                                            $b = new Booking();
                                                             $b = $b->where('fecha','>=',$anio.'-01-01')->where('fecha','<=',$anio.'-12-31')->where('id_usuario',$u->id)->where('status',1)->where('id_tipo',1)->get();
                                                             $money = 0;
                                                             foreach ($b as $m) {
-                                                                $money += $m->precio;
+                                                                if($m->recibo_honorarios==1){
+                                                                    $money += retenciones($m->precio);
+                                                                    $money += $m->ajuste;
+                                                                }else{
+                                                                    $money += $m->precio;
+                                                                    $money += $m->ajuste;
+                                                                }
                                                             }
                                                             echo '$'.number_format($money,2);
                                                             
@@ -303,7 +337,13 @@
                                                             $b = $b->where('fecha','>=',$anio.'-01-01')->where('fecha','<=',$anio.'-12-31')->where('id_usuario',$u->id)->where('status',1)->where('id_tipo',2)->get();
                                                             $money = 0;
                                                             foreach ($b as $m) {
-                                                                $money += $m->precio;
+                                                                if($m->recibo_honorarios==1){
+                                                                    $money += retenciones($m->precio);
+                                                                    $money += $m->ajuste;
+                                                                }else{
+                                                                    $money += $m->precio;
+                                                                    $money += $m->ajuste;
+                                                                }
                                                             }
                                                             echo '$'.number_format($money,2);
                                                             
@@ -315,7 +355,13 @@
                                                             $b = $b->where('fecha','>=',$anio.'-01-01')->where('fecha','<=',$anio.'-12-31')->where('id_usuario',$u->id)->where('status',1)->where('id_tipo',3)->get();
                                                             $money = 0;
                                                             foreach ($b as $m) {
-                                                                $money += $m->precio;
+                                                                if($m->recibo_honorarios==1){
+                                                                    $money += retenciones($m->precio);
+                                                                    $money += $m->ajuste;
+                                                                }else{
+                                                                    $money += $m->precio;
+                                                                    $money += $m->ajuste;
+                                                                }
                                                             }
                                                             echo '$'.number_format($money,2);
                                                             
@@ -327,7 +373,13 @@
                                                             $b = $b->where('fecha','>=',$anio.'-01-01')->where('fecha','<=',$anio.'-12-31')->where('id_usuario',$u->id)->where('status',1)->where('id_tipo',4)->get();
                                                             $money = 0;
                                                             foreach ($b as $m) {
-                                                                $money += $m->precio;
+                                                                if($m->recibo_honorarios==1){
+                                                                    $money += retenciones($m->precio);
+                                                                    $money += $m->ajuste;
+                                                                }else{
+                                                                    $money += $m->precio;
+                                                                    $money += $m->ajuste;
+                                                                }
                                                             }
                                                             echo '$'.number_format($money,2);
                                                             
@@ -339,7 +391,13 @@
                                                             $b = $b->where('fecha','>=',$anio.'-01-01')->where('fecha','<=',$anio.'-12-31')->where('id_usuario',$u->id)->where('status',1)->where('id_tipo',5)->get();
                                                             $money = 0;
                                                             foreach ($b as $m) {
-                                                                $money += $m->precio;
+                                                                if($m->recibo_honorarios==1){
+                                                                    $money += retenciones($m->precio);
+                                                                    $money += $m->ajuste;
+                                                                }else{
+                                                                    $money += $m->precio;
+                                                                    $money += $m->ajuste;
+                                                                }
                                                             }
                                                             echo '$'.number_format($money,2);
                                                             
@@ -351,7 +409,31 @@
                                                             $b = $b->where('fecha','>=',$anio.'-01-01')->where('fecha','<=',$anio.'-12-31')->where('id_usuario',$u->id)->where('status',1)->where('id_tipo',6)->get();
                                                             $money = 0;
                                                             foreach ($b as $m) {
-                                                                $money += $m->precio;
+                                                                if($m->recibo_honorarios==1){
+                                                                    $money += retenciones($m->precio);
+                                                                    $money += $m->ajuste;
+                                                                }else{
+                                                                    $money += $m->precio;
+                                                                    $money += $m->ajuste;
+                                                                }
+                                                            }
+                                                            echo '$'.number_format($money,2);
+                                                            
+                                                    ?>
+                                                    </td>  
+                                                    <td>
+                                                    <?php
+                                                            $b = new Booking();
+                                                            $b = $b->where('fecha','>=',$anio.'-01-01')->where('fecha','<=',$anio.'-12-31')->where('id_usuario',$u->id)->where('status',1)->where('id_tipo',7)->get();
+                                                            $money = 0;
+                                                            foreach ($b as $m) {
+                                                                if($m->recibo_honorarios==1){
+                                                                    $money += retenciones($m->precio);
+                                                                    $money += $m->ajuste;
+                                                                }else{
+                                                                    $money += $m->precio;
+                                                                    $money += $m->ajuste;
+                                                                }
                                                             }
                                                             echo '$'.number_format($money,2);
                                                             
@@ -371,7 +453,13 @@
                                                             $b = $b->where('fecha','>=',$anio.'-01-01')->where('fecha','<=',$anio.'-12-31')->where('id_usuario',$u->id)->where('status',1)->get();
                                                             $money = 0;
                                                             foreach ($b as $m) {
-                                                                $money += $m->precio;
+                                                                if($m->recibo_honorarios==1){
+                                                                    $money += retenciones($m->precio);
+                                                                    $money += $m->ajuste;
+                                                                }else{
+                                                                    $money += $m->precio;
+                                                                    $money += $m->ajuste;
+                                                                }
                                                             }
                                                             echo '$'.number_format($money,2);
                                                     ?>

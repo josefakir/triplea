@@ -88,6 +88,7 @@
                                     <th>PR</th>
                                     <th>RO</th>
                                     <th>HS</th>
+                                    <th>INT</th>
                                     <th>Total de eventos</th>
                                     <th>$ total</th>
                                     </tr>
@@ -98,14 +99,14 @@
                                             $anio = $_GET['anio'];
                                             $mes = $_GET['mes'];
                                             $usuario = new Usuario();
-                                            $usuario = $usuario->where('rol',3)->orderBy('nombre','ASC')->get();
+                                            $usuario = $usuario->where('rol',3)->orderBy('personaje','ASC')->get();
                                             foreach ($usuario as $u) {
                                                 $total = 0;
                                                 $costo_total = 0;
                                                 ?>
                                                 <tr>
                                                     <td><?php echo $u->id ?></td>
-                                                    <td><?php echo $u->nombre ?></td>
+                                                    <td><?php echo $u->personaje ?></td>
                                                     <td>
                                                         <?php
                                                             $b = new Booking();
@@ -151,6 +152,13 @@
                                                     <td>
                                                     <?php
                                                             $b = new Booking();
+                                                            $b = $b->where('fecha','>=',$anio.'-'.$mes.'-01')->where('fecha','<=',$anio.'-'.$mes.'-31')->where('id_usuario',$u->id)->where('status',1)->where('id_tipo',7)->get();
+                                                            echo count($b);
+                                                        ?>
+                                                    </td> 
+                                                    <td>
+                                                    <?php
+                                                            $b = new Booking();
                                                             $b = $b->where('fecha','>=',$anio.'-'.$mes.'-01')->where('fecha','<=',$anio.'-'.$mes.'-31')->where('id_usuario',$u->id)->where('status',1)->get();
                                                             echo count($b)
                                                             
@@ -162,13 +170,17 @@
                                                             $b = $b->where('fecha','>=',$anio.'-'.$mes.'-01')->where('fecha','<=',$anio.'-'.$mes.'-31')->where('id_usuario',$u->id)->where('status',1)->get();
                                                             $money = 0;
                                                             foreach ($b as $m) {
-                                                                $money += $m->precio;
+                                                                if($m->recibo_honorarios==1){
+                                                                    $money += retenciones($m->precio);
+                                                                    $money += $m->ajuste;
+                                                                }else{
+                                                                    $money += $m->precio;
+                                                                    $money += $m->ajuste;
+                                                                }
                                                             }
                                                             echo '$'.number_format($money,2);
                                                     ?>
-                                                    </td>  
-                                                  
-                                                  
+                                                    </td> 
                                                 </tr>
                                                 <?php
                                             }
